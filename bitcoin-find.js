@@ -5,7 +5,26 @@ import fs from "fs";
 import walletsArray from "./wallets.js";
 const walletsSet = new Set(walletsArray);
 
-async function encontrarBitcoins(
+function encontrarCarteira(numero) {
+  const um = BigInt(1);
+  let minimo, maximo;
+
+  minimo = Math.pow(2, numero).toString(16);
+  maximo = (BigInt(Math.pow(2, numero + 1)) - um).toString(16);
+
+  return { minimo, maximo };
+}
+
+function gerarValorAleatorio(minimo, maximo) {
+  const minimoDecimal = parseInt(minimo, 16);
+  const maximoDecimal = parseInt(maximo, 16);
+  const valorAleatorioDecimal =
+    Math.floor(Math.random() * (maximoDecimal - minimoDecimal + 1)) +
+    minimoDecimal;
+  return valorAleatorioDecimal.toString(16);
+}
+
+async function encontrarBitcoinsLoteria(
   key,
   min,
   max,
@@ -30,48 +49,32 @@ async function encontrarBitcoins(
 
   const executeLoop = async () => {
     while (!shouldStop()) {
-      pkey = key.toString(16);
-      pkey = `${zeroes[pkey.length]}${pkey}`;
+      const resultado = encontrarCarteira(55);
+      const valorAleatorio = gerarValorAleatorio(
+        resultado.minimo,
+        resultado.maximo
+      );
+
+      pkey2 = valorAleatorio.toString(16);
+      pkey = `c0de0000000000000000000000000000000000000000000032${pkey2.slice(
+        0,
+        -17
+      )}${pkey2}`;
+
+      // console.log(
+      //   "c0de000000000000000000000000000000000000000000003200000000000000"
+      // );
+      // console.log(pkey.toString(16));
+      // exit();
+
+      // pkey = key.toString(16);
+      // pkey = `${zeroes[pkey.length]}${pkey}`;
       let publicKey = generatePublic(pkey);
 
-      if (Date.now() - startTime > segundos) {
-        segundos += segundosAtraso;
-        // console.log(segundos / segundosAtraso, publicKey);
-        if (segundos % 10 == 0) {
-          const tempo = (Date.now() - startTime) / segundosAtraso;
-          console.clear();
-          console.log("Resumo: ");
-          console.log(
-            "Velocidade:",
-            Number(key) - Number(min) / tempo,
-            " chaves por segundo"
-          );
-          console.log("Chaves buscadas: ", (key - min).toLocaleString("pt-BR"));
-          console.log("Ultima chave tentada: ", pkey);
-
-          const filePath = "chave.json"; // File path to write to
-          const content = {
-            carteira: carteira,
-            segundosAtraso: segundosAtraso,
-            chaveinicial: chaveinicial.replace("0x", ""),
-            chave: pkey.toString(16),
-          };
-          const publicKeyZ = {
-            chave: pkey,
-            publicKey: publicKey,
-          };
-          try {
-            fs.writeFileSync(filePath, JSON.stringify(content), "utf8");
-            // fs.appendFileSync(
-            //   "keys.json",
-            //   JSON.stringify(publicKeyZ) + ",",
-            //   "utf8"
-            // );
-          } catch (err) {
-            console.error("Error writing to file:", err);
-          }
-        }
-      }
+      console.clear();
+      console.log("Resumo: ");
+      console.log("Chaves buscadas: ", (key - min).toLocaleString("pt-BR"));
+      console.log("Ultima chave tentada: ", pkey);
 
       if (walletsSet.has(publicKey)) {
         const tempo = (Date.now() - startTime) / segundosAtraso;
@@ -85,7 +88,7 @@ async function encontrarBitcoins(
         console.log("WIF:", chalk.green(generateWIF(pkey)));
         console.log("Public key:", chalk.green(publicKey));
 
-        const filePath = "keys.txt";
+        const filePath = "keysloto.txt";
         const lineToAppend = `Private key: ${pkey}, WIF: ${generateWIF(
           pkey
         )}, Public Key: ${publicKey}\n`;
@@ -125,4 +128,4 @@ function generateWIF(privateKey) {
   return _key.privateWif;
 }
 
-export default encontrarBitcoins;
+export default encontrarBitcoinsLoteria;
