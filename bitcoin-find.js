@@ -5,25 +5,6 @@ import fs from "fs";
 import walletsArray from "./wallets.js";
 const walletsSet = new Set(walletsArray);
 
-function encontrarCarteira(numero) {
-  const um = BigInt(1);
-  let minimo, maximo;
-
-  minimo = Math.pow(2, numero).toString(16);
-  maximo = (BigInt(Math.pow(2, numero + 1)) - um).toString(16);
-
-  return { minimo, maximo };
-}
-
-function gerarValorAleatorio(minimo, maximo) {
-  const minimoDecimal = parseInt(minimo, 16);
-  const maximoDecimal = parseInt(maximo, 16);
-  const valorAleatorioDecimal =
-    Math.floor(Math.random() * (maximoDecimal - minimoDecimal + 1)) +
-    minimoDecimal;
-  return valorAleatorioDecimal.toString(16);
-}
-
 async function encontrarBitcoins(
   key,
   min,

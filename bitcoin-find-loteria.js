@@ -48,41 +48,44 @@ async function encontrarBitcoinsLoteria(
   console.log("Buscando Bitcoins...");
 
   const executeLoop = async () => {
+    const resultado = encontrarCarteira(129);
     while (!shouldStop()) {
-      const resultado = encontrarCarteira(55);
       const valorAleatorio = gerarValorAleatorio(
-        resultado.minimo,
+        resultado.minimo + Number(key),
         resultado.maximo
       );
-
-      pkey2 = valorAleatorio.toString(16);
-      pkey = `c0de0000000000000000000000000000000000000000000032${pkey2.slice(
-        0,
-        -17
-      )}${pkey2}`;
+      // pkey2 = valorAleatorio.toString(16);
+      // pkey = `c0de0000000000000000000000000000000000000000000032${pkey2.slice(
+      //   0,
+      //   -17
+      // )}${pkey2}`;
 
       // console.log(
       //   "c0de000000000000000000000000000000000000000000003200000000000000"
       // );
-      // console.log(pkey.toString(16));
-      // exit();
 
-      // pkey = key.toString(16);
-      // pkey = `${zeroes[pkey.length]}${pkey}`;
+      pkey = BigInt(key).toString(16) + valorAleatorio;
+      pkey = `${zeroes[pkey.length]}${pkey}`;
+
+      // let pkey2 = `${zeroes[key.length]}${key}`;
+      console.log("pkey ", pkey);
+      // console.log("pkey2", pkey2.toString(16));
+      exit();
+
       let publicKey = generatePublic(pkey);
 
       console.clear();
       console.log("Resumo: ");
       console.log("Chaves buscadas: ", (key - min).toLocaleString("pt-BR"));
-      console.log("Ultima chave tentada: ", pkey);
+      console.log("Ultima chave tentada: ", pkey, key.toString(16));
 
       if (walletsSet.has(publicKey)) {
         const tempo = (Date.now() - startTime) / segundosAtraso;
-        console.log(
-          "Velocidade:",
-          (Number(key) - Number(min)) / tempo,
-          " chaves por segundo"
-        );
+        // console.log(
+        //   "Velocidade:",
+        //   (Number(key) - Number(min)) / tempo,
+        //   " chaves por segundo"
+        // );
         console.log("Tempo:", tempo, " segundos");
         console.log("Private key:", chalk.green(pkey));
         console.log("WIF:", chalk.green(generateWIF(pkey)));

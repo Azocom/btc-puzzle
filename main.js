@@ -9,7 +9,7 @@ let key,
   min,
   max = 0;
 let shouldStop = false;
-let modo = "L";
+let modo = "E";
 
 console.clear();
 
