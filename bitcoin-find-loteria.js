@@ -28,8 +28,6 @@ async function encontrarBitcoinsLoteria(id, lmin, lmax, shouldStop) {
   let segundos = 0;
   let pkey = 0;
   let pkey2 = 0;
-  const um = BigInt(1);
-  const startTime = Date.now();
 
   let zeroes = new Array(65).fill("");
   for (let i = 1; i < 64; i++) {
@@ -108,7 +106,9 @@ async function encontrarBitcoinsLoteria(id, lmin, lmax, shouldStop) {
         console.info("ACHEI!!!! 🎉🎉🎉🎉🎉");
         // throw "ACHEI!!!! 🎉🎉🎉🎉🎉";
         process.exit(0);
-      }
+      // } else {
+      //   console.log("nao achou", publicKey);
+       }
 
       // key++;
     }

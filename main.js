@@ -54,10 +54,16 @@ if (modo == "E") {
     chaveinicial
   );
 } else {
-  encontrarBitcoinsLoteria(
-    1,
-    "20000000000000",
-    "ffffffffffffff",
-    () => shouldStop
-  );
+
+  try {
+
+    encontrarBitcoinsLoteria(
+      1,
+      "20000000000000",
+      "ffffffffffffff",
+      () => shouldStop
+      );
+    } catch (err) {
+      console.error("Erroß:", err);
+    }
 }
