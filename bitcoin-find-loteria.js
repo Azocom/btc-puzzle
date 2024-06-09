@@ -56,6 +56,7 @@ async function encontrarBitcoinsLoteria(
       );
 
       pkey2 = valorAleatorio;
+
       // console.log("valorAleatorio ", pkey2);
       // exit();
       pkey = `c0de0000000000000000000000000000000000000000000032${pkey2}`;
@@ -105,7 +106,7 @@ async function encontrarBitcoinsLoteria(
           console.error("Erro ao escrever chave em arquivo:", err);
         }
 
-        await new Promise((ok) => beep());
+        await new Promise((ok) => beep(2500));
         console.info("ACHEI!!!! 🎉🎉🎉🎉🎉");
         // throw "ACHEI!!!! 🎉🎉🎉🎉🎉";
         process.exit(0);
@@ -118,8 +119,8 @@ async function encontrarBitcoinsLoteria(
   await executeLoop();
 }
 
-async function beep() {
-  exec("powershell.exe [console]::beep(2000,500)");
+async function beep(valor) {
+  exec(`powershell.exe [console]::beep(2000,${valor})`);
 }
 
 function generatePublic(privateKey) {
