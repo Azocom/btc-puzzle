@@ -24,18 +24,7 @@ function gerarValorAleatorio(minimo, maximo) {
   return valorAleatorioDecimal.toString(16);
 }
 
-async function encontrarBitcoinsLoteria(id, lmin, lmax, shouldStop) {
-  let pkey01 = 0;
-  let pkey02 = 0;
-  let pkey03 = 0;
-  let pkey04 = 0;
-  let pkey05 = 0;
-  let pkey06 = 0;
-  let pkey07 = 0;
-  let pkey08 = 0;
-  let pkey09 = 0;
-  let pkey10 = 0;
-
+async function encontrarBitcoinsLoteria(loop, lmin, lmax, shouldStop) {
   let pkey = Array();
   let publicKey = Array();
 
@@ -53,60 +42,12 @@ async function encontrarBitcoinsLoteria(id, lmin, lmax, shouldStop) {
 
       console.clear();
 
-      for (let index = 0; index <= id; index++) {
+      for (let index = 0; index <= loop; index++) {
          pkey[index] = `c0de0000000000000000000000000000000000000000000032${gerarValorAleatorio(lmin, lmax)}`;
          publicKey[index] = generatePublic(pkey[index]);
          console.log(`Ultima chave tentada ${("00" + (index+1)).slice(-2)} : `, pkey[index] ,publicKey[index] );
          await validar(pkey[index] , publicKey[index]);
       }
-
-      //exit();
-      // pkey01 = `c0de0000000000000000000000000000000000000000000032${gerarValorAleatorio(lmin, lmax)}`;
-      // pkey02 = `c0de0000000000000000000000000000000000000000000032${gerarValorAleatorio(lmin, lmax)}`;
-      // pkey03 = `c0de0000000000000000000000000000000000000000000032${gerarValorAleatorio(lmin, lmax)}`;
-      // pkey04 = `c0de0000000000000000000000000000000000000000000032${gerarValorAleatorio(lmin, lmax)}`;
-      // pkey05 = `c0de0000000000000000000000000000000000000000000032${gerarValorAleatorio(lmin, lmax)}`;
-      // pkey06 = `c0de0000000000000000000000000000000000000000000032${gerarValorAleatorio(lmin, lmax)}`;
-      // pkey07 = `c0de0000000000000000000000000000000000000000000032${gerarValorAleatorio(lmin, lmax)}`;
-      // pkey08 = `c0de0000000000000000000000000000000000000000000032${gerarValorAleatorio(lmin, lmax)}`;
-      // pkey09 = `c0de0000000000000000000000000000000000000000000032${gerarValorAleatorio(lmin, lmax)}`;
-      // pkey10 = `c0de0000000000000000000000000000000000000000000032${gerarValorAleatorio(lmin, lmax)}`;
-
-      // let publicKey01 = generatePublic(pkey01);
-      // let publicKey02 = generatePublic(pkey02);
-      // let publicKey03 = generatePublic(pkey03);
-      // let publicKey04 = generatePublic(pkey04);
-      // let publicKey05 = generatePublic(pkey05);
-      // let publicKey06 = generatePublic(pkey06);
-      // let publicKey07 = generatePublic(pkey07);
-      // let publicKey08 = generatePublic(pkey08);
-      // let publicKey09 = generatePublic(pkey09);
-      // let publicKey10 = generatePublic(pkey10);
-
-      // console.clear();
-      // // console.log("Resumo: ");
-      // // console.log("Chaves buscadas: ", (key - min).toLocaleString("pt-BR"));
-      // console.log("Ultima chave tentada 01 : ", pkey01);
-      // console.log("Ultima chave tentada 02 : ", pkey02);
-      // console.log("Ultima chave tentada 03 : ", pkey03);
-      // console.log("Ultima chave tentada 04 : ", pkey04);
-      // console.log("Ultima chave tentada 05 : ", pkey05);
-      // console.log("Ultima chave tentada 06 : ", pkey06);
-      // console.log("Ultima chave tentada 07 : ", pkey07);
-      // console.log("Ultima chave tentada 08 : ", pkey08);
-      // console.log("Ultima chave tentada 09 : ", pkey09);
-      // console.log("Ultima chave tentada 10 : ", pkey10);
-
-      // exit();
-      // const filePath = "Buscadas_" + id + ".txt";
-      // const lineToAppend = `Private key: ${pkey}, WIF: ${generateWIF(
-      //   pkey
-      // )}, Public Key: ${publicKey}\n`;
-      // try {
-      //   fs.appendFileSync(filePath, lineToAppend);
-      // } catch (err) {
-      //   console.error("Erro ao escrever chave em arquivo:", err);
-      // }
 
     }
     await new Promise((resolve) => setImmediate(resolve));
