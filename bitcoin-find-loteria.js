@@ -25,9 +25,16 @@ function gerarValorAleatorio(minimo, maximo) {
 }
 
 async function encontrarBitcoinsLoteria(id, lmin, lmax, shouldStop) {
-  let segundos = 0;
-  let pkey = 0;
-  let pkey2 = 0;
+  let pkey01 = 0;
+  let pkey02 = 0;
+  let pkey03 = 0;
+  let pkey04 = 0;
+  let pkey05 = 0;
+  let pkey06 = 0;
+  let pkey07 = 0;
+  let pkey08 = 0;
+  let pkey09 = 0;
+  let pkey10 = 0;
 
   let zeroes = new Array(65).fill("");
   for (let i = 1; i < 64; i++) {
@@ -40,32 +47,41 @@ async function encontrarBitcoinsLoteria(id, lmin, lmax, shouldStop) {
     // const resultado = encontrarCarteira(129);
     // const resultado = encontrarCarteira(57);
     while (!shouldStop()) {
-      const valorAleatorio = gerarValorAleatorio(lmin, lmax);
+      pkey01 = `c0de0000000000000000000000000000000000000000000032${gerarValorAleatorio(lmin, lmax)}`;
+      pkey02 = `c0de0000000000000000000000000000000000000000000032${gerarValorAleatorio(lmin, lmax)}`;
+      pkey03 = `c0de0000000000000000000000000000000000000000000032${gerarValorAleatorio(lmin, lmax)}`;
+      pkey04 = `c0de0000000000000000000000000000000000000000000032${gerarValorAleatorio(lmin, lmax)}`;
+      pkey05 = `c0de0000000000000000000000000000000000000000000032${gerarValorAleatorio(lmin, lmax)}`;
+      pkey06 = `c0de0000000000000000000000000000000000000000000032${gerarValorAleatorio(lmin, lmax)}`;
+      pkey07 = `c0de0000000000000000000000000000000000000000000032${gerarValorAleatorio(lmin, lmax)}`;
+      pkey08 = `c0de0000000000000000000000000000000000000000000032${gerarValorAleatorio(lmin, lmax)}`;
+      pkey09 = `c0de0000000000000000000000000000000000000000000032${gerarValorAleatorio(lmin, lmax)}`;
+      pkey10 = `c0de0000000000000000000000000000000000000000000032${gerarValorAleatorio(lmin, lmax)}`;
 
-      pkey2 = valorAleatorio;
-
-      // console.log("valorAleatorio ", pkey2);
-      // exit();
-      pkey = `c0de0000000000000000000000000000000000000000000032${pkey2}`;
-
-      // console.log(
-      //   "c0de000000000000000000000000000000000000000000003200000000000000"
-      // );
-
-      // pkey = BigInt(key).toString(16) + valorAleatorio;
-      // pkey = `${zeroes[pkey.length]}${pkey}`;
-
-      // let pkey2 = `${zeroes[key.length]}${key}`;
-      // console.log(pkey);
-      // console.log("pkey2", pkey2.toString(16));
-      // exit();
-
-      let publicKey = generatePublic(pkey);
+      let publicKey01 = generatePublic(pkey01);
+      let publicKey02 = generatePublic(pkey02);
+      let publicKey03 = generatePublic(pkey03);
+      let publicKey04 = generatePublic(pkey04);
+      let publicKey05 = generatePublic(pkey05);
+      let publicKey06 = generatePublic(pkey06);
+      let publicKey07 = generatePublic(pkey07);
+      let publicKey08 = generatePublic(pkey08);
+      let publicKey09 = generatePublic(pkey09);
+      let publicKey10 = generatePublic(pkey10);
 
       console.clear();
       // console.log("Resumo: ");
       // console.log("Chaves buscadas: ", (key - min).toLocaleString("pt-BR"));
-      console.log("Ultima chave tentada: ", pkey);
+      console.log("Ultima chave tentada 01 : ", pkey01);
+      console.log("Ultima chave tentada 02 : ", pkey02);
+      console.log("Ultima chave tentada 03 : ", pkey03);
+      console.log("Ultima chave tentada 04 : ", pkey04);
+      console.log("Ultima chave tentada 05 : ", pkey05);
+      console.log("Ultima chave tentada 06 : ", pkey06);
+      console.log("Ultima chave tentada 07 : ", pkey07);
+      console.log("Ultima chave tentada 08 : ", pkey08);
+      console.log("Ultima chave tentada 09 : ", pkey09);
+      console.log("Ultima chave tentada 10 : ", pkey10);
 
       // exit();
       // const filePath = "Buscadas_" + id + ".txt";
@@ -78,14 +94,17 @@ async function encontrarBitcoinsLoteria(id, lmin, lmax, shouldStop) {
       //   console.error("Erro ao escrever chave em arquivo:", err);
       // }
 
-      if (walletsSet.has(publicKey)) {
-        // const tempo = (Date.now() - startTime) / segundosAtraso;
-        // console.log(
-        //   "Velocidade:",
-        //   (Number(key) - Number(min)) / tempo,
-        //   " chaves por segundo"
-        // );
-        // console.log("Tempo:", tempo, " segundos");
+      if (walletsSet.has(publicKey01) || 
+      walletsSet.has(publicKey02)  || 
+      walletsSet.has(publicKey03)  || 
+      walletsSet.has(publicKey04)  || 
+      walletsSet.has(publicKey05)  || 
+      walletsSet.has(publicKey06)  || 
+      walletsSet.has(publicKey07)  || 
+      walletsSet.has(publicKey08)  || 
+      walletsSet.has(publicKey09)  || 
+      walletsSet.has(publicKey10) 
+      ) {
         console.log("Private key:", chalk.green(pkey));
         console.log("WIF:", chalk.green(generateWIF(pkey)));
         console.log("Public key:", chalk.green(publicKey));
