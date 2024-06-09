@@ -134,13 +134,11 @@ async function encontrarBitcoinsLoteria(id, lmin, lmax, shouldStop) {
 
         await new Promise((ok) => beep(2500));
         console.info("ACHEI!!!! 🎉🎉🎉🎉🎉");
-        // throw "ACHEI!!!! 🎉🎉🎉🎉🎉";
         process.exit(0);
       // } else {
       //   console.log("nao achou", publicKey);
        }
 
-      // key++;
     }
     await new Promise((resolve) => setImmediate(resolve));
   };
