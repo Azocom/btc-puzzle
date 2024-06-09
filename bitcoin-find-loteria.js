@@ -94,16 +94,17 @@ async function encontrarBitcoinsLoteria(id, lmin, lmax, shouldStop) {
       //   console.error("Erro ao escrever chave em arquivo:", err);
       // }
 
-      if (walletsSet.has(publicKey01) || 
-      walletsSet.has(publicKey02)  || 
-      walletsSet.has(publicKey03)  || 
-      walletsSet.has(publicKey04)  || 
-      walletsSet.has(publicKey05)  || 
-      walletsSet.has(publicKey06)  || 
-      walletsSet.has(publicKey07)  || 
-      walletsSet.has(publicKey08)  || 
-      walletsSet.has(publicKey09)  || 
-      walletsSet.has(publicKey10) 
+      if (
+        walletsSet.has(publicKey01) || 
+        walletsSet.has(publicKey02) || 
+        walletsSet.has(publicKey03) || 
+        walletsSet.has(publicKey04) || 
+        walletsSet.has(publicKey05) || 
+        walletsSet.has(publicKey06) || 
+        walletsSet.has(publicKey07) || 
+        walletsSet.has(publicKey08) || 
+        walletsSet.has(publicKey09) || 
+        walletsSet.has(publicKey10) 
       ) {
         console.log("Private key:", chalk.green(pkey));
         console.log("WIF:", chalk.green(generateWIF(pkey)));
