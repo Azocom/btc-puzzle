@@ -38,7 +38,6 @@ async function encontrarBitcoinsLoteria(
   let pkey2 = 0;
   const um = BigInt(1);
   const startTime = Date.now();
-  const valorAleatorioDecimal = 0;
 
   let zeroes = new Array(65).fill("");
   for (let i = 1; i < 64; i++) {
@@ -48,36 +47,37 @@ async function encontrarBitcoinsLoteria(
   console.log("Buscando Bitcoins...");
 
   const executeLoop = async () => {
-    const resultado = encontrarCarteira(129);
+    // const resultado = encontrarCarteira(129);
+    const resultado = encontrarCarteira(57);
     while (!shouldStop()) {
       const valorAleatorio = gerarValorAleatorio(
-        resultado.minimo + Number(key),
-        resultado.maximo
+        "200000000000000",
+        "3ffffffffffffff"
       );
-      // pkey2 = valorAleatorio.toString(16);
-      // pkey = `c0de0000000000000000000000000000000000000000000032${pkey2.slice(
-      //   0,
-      //   -17
-      // )}${pkey2}`;
+
+      pkey2 = valorAleatorio;
+      // console.log("valorAleatorio ", pkey2);
+      // exit();
+      pkey = `c0de000000000000000000000000000000000000000000003${pkey2}`;
 
       // console.log(
       //   "c0de000000000000000000000000000000000000000000003200000000000000"
       // );
 
-      pkey = BigInt(key).toString(16) + valorAleatorio;
-      pkey = `${zeroes[pkey.length]}${pkey}`;
+      // pkey = BigInt(key).toString(16) + valorAleatorio;
+      // pkey = `${zeroes[pkey.length]}${pkey}`;
 
       // let pkey2 = `${zeroes[key.length]}${key}`;
-      console.log("pkey ", pkey);
+      // console.log(pkey);
       // console.log("pkey2", pkey2.toString(16));
-      exit();
+      // exit();
 
       let publicKey = generatePublic(pkey);
 
       console.clear();
       console.log("Resumo: ");
       console.log("Chaves buscadas: ", (key - min).toLocaleString("pt-BR"));
-      console.log("Ultima chave tentada: ", pkey, key.toString(16));
+      console.log("Ultima chave tentada: ", pkey);
 
       if (walletsSet.has(publicKey)) {
         const tempo = (Date.now() - startTime) / segundosAtraso;

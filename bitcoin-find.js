@@ -56,6 +56,8 @@ async function encontrarBitcoinsLoteria(
       );
 
       pkey2 = valorAleatorio.toString(16);
+      console.log(pkey2.toString(16));
+      console.log("----");
       pkey = `c0de0000000000000000000000000000000000000000000032${pkey2.slice(
         0,
         -17
