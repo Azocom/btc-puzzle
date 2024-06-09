@@ -58,7 +58,7 @@ if (modo == "E") {
   try {
 
     encontrarBitcoinsLoteria(
-      10,
+      20,
       "20000000000000",
       "ffffffffffffff",
       () => shouldStop
