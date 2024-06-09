@@ -106,17 +106,27 @@ async function encontrarBitcoinsLoteria(id, lmin, lmax, shouldStop) {
         walletsSet.has(publicKey09) || 
         walletsSet.has(publicKey10) 
       ) {
-        console.log("Private key:", chalk.green(pkey));
-        console.log("WIF:", chalk.green(generateWIF(pkey)));
-        console.log("Public key:", chalk.green(publicKey));
+        // console.log("Private key:", chalk.green(pkey01));
+        // console.log("WIF:", chalk.green(generateWIF(pkey01)));
+        // console.log("Public key:", chalk.green(publicKey01));
 
-        const filePath = "LotoEncontrada_" + valorAleatorio + ".txt";
-        const lineToAppend = `Private key: ${pkey}, WIF: ${generateWIF(
-          pkey
-        )}, Public Key: ${publicKey}\n`;
+        const filePath = "LotoEncontrada.txt";
+
+        const lineToAppend = [
+          {"Private key 01 " : pkey01,"WIF": generateWIF(pkey01), "Public Key": publicKey01},
+          {"Private key 02 " : pkey02,"WIF": generateWIF(pkey02), "Public Key": publicKey02},
+          {"Private key 03 " : pkey03,"WIF": generateWIF(pkey03), "Public Key": publicKey03},
+          {"Private key 04 " : pkey04,"WIF": generateWIF(pkey04), "Public Key": publicKey04},
+          {"Private key 05 " : pkey05,"WIF": generateWIF(pkey05), "Public Key": publicKey05},
+          {"Private key 06 " : pkey06,"WIF": generateWIF(pkey06), "Public Key": publicKey06},
+          {"Private key 07 " : pkey07,"WIF": generateWIF(pkey07), "Public Key": publicKey07},
+          {"Private key 08 " : pkey08,"WIF": generateWIF(pkey08), "Public Key": publicKey08},
+          {"Private key 09 " : pkey09,"WIF": generateWIF(pkey09), "Public Key": publicKey09},
+          {"Private key 10 " : pkey10,"WIF": generateWIF(pkey10), "Public Key": publicKey10}
+        ]
 
         try {
-          fs.appendFileSync(filePath, lineToAppend);
+          fs.appendFileSync(filePath, JSON.stringify(lineToAppend));
           console.log("Chave escrita no arquivo com sucesso.");
         } catch (err) {
           console.error("Erro ao escrever chave em arquivo:", err);
