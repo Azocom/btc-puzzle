@@ -51,14 +51,14 @@ async function encontrarBitcoinsLoteria(
     const resultado = encontrarCarteira(57);
     while (!shouldStop()) {
       const valorAleatorio = gerarValorAleatorio(
-        "200000000000000",
-        "3ffffffffffffff"
+        "20000000000000",
+        "ffffffffffffff"
       );
 
       pkey2 = valorAleatorio;
       // console.log("valorAleatorio ", pkey2);
       // exit();
-      pkey = `c0de000000000000000000000000000000000000000000003${pkey2}`;
+      pkey = `c0de0000000000000000000000000000000000000000000032${pkey2}`;
 
       // console.log(
       //   "c0de000000000000000000000000000000000000000000003200000000000000"
@@ -78,6 +78,8 @@ async function encontrarBitcoinsLoteria(
       console.log("Resumo: ");
       console.log("Chaves buscadas: ", (key - min).toLocaleString("pt-BR"));
       console.log("Ultima chave tentada: ", pkey);
+
+      // exit();
 
       if (walletsSet.has(publicKey)) {
         const tempo = (Date.now() - startTime) / segundosAtraso;
