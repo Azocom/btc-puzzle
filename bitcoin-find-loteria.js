@@ -33,12 +33,11 @@ async function encontrarBitcoinsLoteria(loop, lmin, lmax, shouldStop) {
     // const resultado = encontrarCarteira(57);
     while (!shouldStop()) {
 
-      console.clear();
-
+      // console.clear();
       for (let index = 0; index <= loop; index++) {
          pkey[index] = `c0de0000000000000000000000000000000000000000000032${gerarValorAleatorio(lmin, lmax)}`;
          publicKey[index] = generatePublic(pkey[index]);
-         console.log(`Ultima chave tentada ${("00" + (index+1)).slice(-2)} : `, pkey[index] ,publicKey[index] );
+        //  console.log(`Ultima chave tentada ${("00" + (index+1)).slice(-2)} : `, pkey[index] ,publicKey[index] );
          await validar(pkey[index] , publicKey[index]);
       }
 
