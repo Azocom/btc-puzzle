@@ -124,7 +124,7 @@ async function validar(pkey,publicKey) {
     const filePath = "LotoEncontrada.txt";
 
     const lineToAppend = {
-      "Private key 01 " : pkey,
+      "Private key" : pkey,
       "WIF": generateWIF(pkey), 
       "Public Key": publicKey
     };
