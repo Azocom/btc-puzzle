@@ -8,10 +8,8 @@ const walletsSet = new Set(walletsArray);
 function encontrarCarteira(numero) {
   const um = BigInt(1);
   let minimo, maximo;
-
   minimo = Math.pow(2, numero).toString(16);
   maximo = (BigInt(Math.pow(2, numero + 1)) - um).toString(16);
-
   return { minimo, maximo };
 }
 
@@ -27,11 +25,6 @@ function gerarValorAleatorio(minimo, maximo) {
 async function encontrarBitcoinsLoteria(loop, lmin, lmax, shouldStop) {
   let pkey = Array();
   let publicKey = Array();
-
-  let zeroes = new Array(65).fill("");
-  for (let i = 1; i < 64; i++) {
-    zeroes[i] = "0".repeat(64 - i);
-  }
 
   console.log("Buscando Bitcoins...");
 
