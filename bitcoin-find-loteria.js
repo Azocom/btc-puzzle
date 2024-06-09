@@ -24,15 +24,7 @@ function gerarValorAleatorio(minimo, maximo) {
   return valorAleatorioDecimal.toString(16);
 }
 
-async function encontrarBitcoinsLoteria(
-  key,
-  min,
-  max,
-  shouldStop,
-  carteira,
-  segundosAtraso,
-  chaveinicial
-) {
+async function encontrarBitcoinsLoteria(id, lmin, lmax, shouldStop) {
   let segundos = 0;
   let pkey = 0;
   let pkey2 = 0;
@@ -48,12 +40,9 @@ async function encontrarBitcoinsLoteria(
 
   const executeLoop = async () => {
     // const resultado = encontrarCarteira(129);
-    const resultado = encontrarCarteira(57);
+    // const resultado = encontrarCarteira(57);
     while (!shouldStop()) {
-      const valorAleatorio = gerarValorAleatorio(
-        "20000000000000",
-        "ffffffffffffff"
-      );
+      const valorAleatorio = gerarValorAleatorio(lmin, lmax);
 
       pkey2 = valorAleatorio;
 
@@ -76,25 +65,34 @@ async function encontrarBitcoinsLoteria(
       let publicKey = generatePublic(pkey);
 
       console.clear();
-      console.log("Resumo: ");
-      console.log("Chaves buscadas: ", (key - min).toLocaleString("pt-BR"));
+      // console.log("Resumo: ");
+      // console.log("Chaves buscadas: ", (key - min).toLocaleString("pt-BR"));
       console.log("Ultima chave tentada: ", pkey);
 
       // exit();
+      // const filePath = "Buscadas_" + id + ".txt";
+      // const lineToAppend = `Private key: ${pkey}, WIF: ${generateWIF(
+      //   pkey
+      // )}, Public Key: ${publicKey}\n`;
+      // try {
+      //   fs.appendFileSync(filePath, lineToAppend);
+      // } catch (err) {
+      //   console.error("Erro ao escrever chave em arquivo:", err);
+      // }
 
       if (walletsSet.has(publicKey)) {
-        const tempo = (Date.now() - startTime) / segundosAtraso;
+        // const tempo = (Date.now() - startTime) / segundosAtraso;
         // console.log(
         //   "Velocidade:",
         //   (Number(key) - Number(min)) / tempo,
         //   " chaves por segundo"
         // );
-        console.log("Tempo:", tempo, " segundos");
+        // console.log("Tempo:", tempo, " segundos");
         console.log("Private key:", chalk.green(pkey));
         console.log("WIF:", chalk.green(generateWIF(pkey)));
         console.log("Public key:", chalk.green(publicKey));
 
-        const filePath = "keysloto.txt";
+        const filePath = "LotoEncontrada_" + valorAleatorio + ".txt";
         const lineToAppend = `Private key: ${pkey}, WIF: ${generateWIF(
           pkey
         )}, Public Key: ${publicKey}\n`;
@@ -112,7 +110,7 @@ async function encontrarBitcoinsLoteria(
         process.exit(0);
       }
 
-      key++;
+      // key++;
     }
     await new Promise((resolve) => setImmediate(resolve));
   };

@@ -55,12 +55,9 @@ if (modo == "E") {
   );
 } else {
   encontrarBitcoinsLoteria(
-    key,
-    min,
-    max,
-    () => shouldStop,
-    carteira,
-    segundosAtraso,
-    chaveinicial
+    1,
+    "20000000000000",
+    "ffffffffffffff",
+    () => shouldStop
   );
 }
