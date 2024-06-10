@@ -19,15 +19,16 @@ function gerarValorAleatorio(minimo, maximo) {
   const valorAleatorioDecimal =
     Math.floor(Math.random() * (maximoDecimal - minimoDecimal + 1)) +
     minimoDecimal;
-  return valorAleatorioDecimal.toString(16);
-}
-
-async function encontrarBitcoinsLoteria(loop, lmin, lmax, shouldStop) {
-  let pkey = Array();
-  let publicKey = Array();
-
-  console.log("Buscando Bitcoins...");
-
+    return valorAleatorioDecimal.toString(16);
+    }
+    
+    
+    async function encontrarBitcoinsLoteria(loop, lmin, lmax, shouldStop) {
+      let pkey = Array();
+      let publicKey = Array();
+      
+      console.log("Buscando Bitcoins...",);
+  
   const executeLoop = async () => {
     // const resultado = encontrarCarteira(129);
     // const resultado = encontrarCarteira(57);
