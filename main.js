@@ -14,37 +14,37 @@ let modo = "L";
 console.clear();
 
 if (modo == "E") {
+  console.log("Ultima Chave tentada : ", chalk.cyan(ultimaChave.chave));
+  console.log(
+    "Iniciando com Chave  : ",
+    chalk.yellow(ultimaChave.chave.slice(0, -1))
+  );
 
-console.log("Ultima Chave tentada : ", chalk.cyan(ultimaChave.chave));
-console.log(
-  "Iniciando com Chave  : ",
-  chalk.yellow(ultimaChave.chave.slice(0, -1))
-);
+  let carteira = ultimaChave.carteira;
+  let answer3 = "0x" + ultimaChave.chave; //.slice(0, -1);
+  let chaveinicial = "0x" + ultimaChave.chaveinicial; //.slice(0, -2);
+  let segundosAtraso = ultimaChave.segundosAtraso;
 
-let carteira = ultimaChave.carteira;
-let answer3 = "0x" + ultimaChave.chave; //.slice(0, -1);
-let chaveinicial = "0x" + ultimaChave.chaveinicial; //.slice(0, -2);
-let segundosAtraso = ultimaChave.segundosAtraso;
+  // min = ranges[carteira - 1].min;
+  max = ranges[carteira - 1].max;
+  console.log(
+    "Carteira escolhida: ",
+    chalk.cyan(carteira),
+    " Min: ",
+    chalk.yellow(answer3),
+    " Max: ",
+    chalk.yellow(max)
+  );
 
-// min = ranges[carteira - 1].min;
-max = ranges[carteira - 1].max;
-console.log(
-  "Carteira escolhida: ",
-  chalk.cyan(carteira),
-  " Min: ",
-  chalk.yellow(answer3),
-  " Max: ",
-  chalk.yellow(max)
-);
+  console.log(
+    "Numero possivel de chaves:",
+    chalk.yellow(
+      parseInt(BigInt(max) - BigInt(answer3)).toLocaleString("pt-BR")
+    )
+  );
 
-console.log(
-  "Numero possivel de chaves:",
-  chalk.yellow(parseInt(BigInt(max) - BigInt(answer3)).toLocaleString("pt-BR"))
-);
-
-min = BigInt(answer3);
-key = BigInt(min);
-
+  min = BigInt(answer3);
+  key = BigInt(min);
 
   encontrarBitcoins(
     key,
@@ -56,16 +56,14 @@ key = BigInt(min);
     chaveinicial
   );
 } else {
-
   try {
-
     encontrarBitcoinsLoteria(
       2,
-      "20000000000000",
-      "ffffffffffffff",
+      "40000000000000000",
+      "7ffffffffffffffff",
       () => shouldStop
-      );
-    } catch (err) {
-      console.error("Erroß:", err);
-    }
+    );
+  } catch (err) {
+    console.error("Erroß:", err);
+  }
 }
