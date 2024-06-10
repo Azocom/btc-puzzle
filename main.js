@@ -13,6 +13,8 @@ let modo = "L";
 
 console.clear();
 
+if (modo == "E") {
+
 console.log("Ultima Chave tentada : ", chalk.cyan(ultimaChave.chave));
 console.log(
   "Iniciando com Chave  : ",
@@ -43,7 +45,7 @@ console.log(
 min = BigInt(answer3);
 key = BigInt(min);
 
-if (modo == "E") {
+
   encontrarBitcoins(
     key,
     min,

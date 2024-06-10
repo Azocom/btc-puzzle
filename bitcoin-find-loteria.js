@@ -26,19 +26,19 @@ function gerarValorAleatorio(minimo, maximo) {
       let pkey = Array();
       let publicKey = Array();
       
-      console.log("Buscando Bitcoins...",);    
+      console.log("Buscando Bitcoins...");    
   
   const executeLoop = async () => {
     // const resultado = encontrarCarteira(129);
     // const resultado = encontrarCarteira(57);
     while (!shouldStop()) {
 
-      // console.clear();
+      console.clear();
       for (let index = 0; index <= loop; index++) {
-         pkey[index] = `c0de0000000000000000000000000000000000000000000032${("00000000000000" + gerarValorAleatorio(lmin, lmax) ).slice(-lmin.length)}`;
-         publicKey[index] = generatePublic(pkey[index]);
+        pkey[index] = `c0de0000000000000000000000000000000000000000000032${("00000000000000" + gerarValorAleatorio(lmin, lmax) ).slice(-lmin.length)}`;
+        publicKey[index] = generatePublic(pkey[index]);
         //  console.log(`Ultima chave tentada ${("00" + (index+1)).slice(-2)} : `, pkey[index] ,publicKey[index] );
-         await validar(pkey[index] , publicKey[index]);
+        await validar(pkey[index] , publicKey[index]);
       }
 
     }
@@ -72,8 +72,8 @@ async function validar(pkey,publicKey) {
     await new Promise((ok) => beep(2500));
     console.info("ACHEI!!!! 🎉🎉🎉🎉🎉");
     process.exit(0);
-  //  } else {
-  //   console.log("nao achou", publicKey);
+   } else {
+    console.log("Buscando Bitcoins...");    
    }
 }
 
