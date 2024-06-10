@@ -26,8 +26,9 @@ function gerarValorAleatorio(minimo, maximo) {
       let pkey = Array();
       let publicKey = Array();
       
-      console.log("Buscando Bitcoins...");    
-  
+      // console.log("Buscando Bitcoins...");    
+      var h = ['|', '/', '-', '\\','%','@','!','$','*','|', '/', '-', '\\','%','@','!','$','*'];
+      
   const executeLoop = async () => {
     // const resultado = encontrarCarteira(129);
     // const resultado = encontrarCarteira(57);
@@ -39,8 +40,9 @@ function gerarValorAleatorio(minimo, maximo) {
         publicKey[index] = generatePublic(pkey[index]);
         // console.log(`Ultima chave tentada ${("00" + (index+1)).slice(-2)} : `, pkey[index] ,publicKey[index] );
         await validar(pkey[index] , publicKey[index]);
-      }
-
+        process.stdout.write(`Buscando Bitcoins : ${h[index]}\r`);
+        }
+     
     }
     await new Promise((resolve) => setImmediate(resolve));
   };
