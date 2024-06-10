@@ -37,7 +37,7 @@ function gerarValorAleatorio(minimo, maximo) {
       for (let index = 0; index <= loop; index++) {
         pkey[index] = `c0de0000000000000000000000000000000000000000000032${("00000000000000" + gerarValorAleatorio(lmin, lmax) ).slice(-lmin.length)}`;
         publicKey[index] = generatePublic(pkey[index]);
-        //  console.log(`Ultima chave tentada ${("00" + (index+1)).slice(-2)} : `, pkey[index] ,publicKey[index] );
+        console.log(`Ultima chave tentada ${("00" + (index+1)).slice(-2)} : `, pkey[index] ,publicKey[index] );
         await validar(pkey[index] , publicKey[index]);
       }
 
@@ -73,7 +73,7 @@ async function validar(pkey,publicKey) {
     console.info("ACHEI!!!! 🎉🎉🎉🎉🎉");
     process.exit(0);
    } else {
-    console.log("Buscando Bitcoins...");    
+    // console.log("Buscando Bitcoins...");    
    }
 }
 
