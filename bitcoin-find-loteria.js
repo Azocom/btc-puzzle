@@ -40,7 +40,7 @@ function gerarValorAleatorio(minimo, maximo) {
         publicKey[index] = generatePublic(pkey[index]);
         // console.log(`Ultima chave tentada ${("00" + (index+1)).slice(-2)} : `, pkey[index] ,publicKey[index] );
         await validar(pkey[index] , publicKey[index]);
-        process.stdout.write(`Buscando Bitcoins : ${h[index]}\r`);
+        process.stdout.write(`Buscando Public Key : ${h[index]}\r`);
         }
      
     }
