@@ -53,23 +53,31 @@ async function encontrarBitcoinsLoteria(loop, lmin, lmax, shouldStop) {
     // const resultado = encontrarCarteira(57);
     while (!shouldStop()) {
       //console.clear();
-      for (let index = 0; index <= loop; index++) {
-        //0000000000000000000000000000000000000000000000000000000000000000
-        // pkey[index] = `c0de0000000000000000000000000000000000000000000032${("00000000000000" + gerarValorAleatorio(lmin, lmax) ).slice(-lmin.length)}`;
-        pkey[index] = `00000000000000000000000000000000000000000000000${(
-          "0000000000000000000000000000000000000000000000000000000000000000" +
-          gerarValorAleatorio(lmin, lmax)
-        ).slice(-lmin.length)}`;
-        publicKey[index] = generatePublic(pkey[index]);
-        // console.log(
-        //   `Ultima chave tentada ${("00" + (index + 1)).slice(-2)} : `,
-        //   pkey[index],
-        //   publicKey[index]
-        // );
-        await validar(pkey[index], publicKey[index]);
-        process.stdout.write(`Buscando Public Key : ${publicKey[index]}\r`);
-      }
+      //for (let index = 0; index <= loop; index++) {
+      //0000000000000000000000000000000000000000000000000000000000000000
+      pkey[0] = `c0de0000000000000000000000000000000000000000000032${(
+        "00000000000000" +
+        gerarValorAleatorio("20000000000000", "ffffffffffffff")
+      ).slice(-"ffffffffffffff".length)}`;
+
+      pkey[1] = `00000000000000000000000000000000000000000000000${(
+        "0000000000000000000000000000000000000000000000000000000000000000" +
+        gerarValorAleatorio(lmin, lmax)
+      ).slice(-lmin.length)}`;
+      publicKey[0] = generatePublic(pkey[0]);
+      publicKey[1] = generatePublic(pkey[1]);
+      // console.log(
+      //   `Ultima chave tentada ${("00" + (index + 1)).slice(-2)} : `,
+      //   pkey[index],
+      //   publicKey[index]
+      // );
+      await validar(pkey[0], publicKey[0]);
+      await validar(pkey[1], publicKey[1]);
+      process.stdout.write(
+        `Buscando Public Key 1 : ${publicKey[0]} - Buscando Public Key 2 : ${publicKey[1]}\r`
+      );
     }
+    // }
     await new Promise((resolve) => setImmediate(resolve));
   };
   await executeLoop();
