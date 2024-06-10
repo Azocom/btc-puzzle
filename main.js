@@ -60,7 +60,7 @@ key = BigInt(min);
   try {
 
     encontrarBitcoinsLoteria(
-      10,
+      5,
       "20000000000000",
       "ffffffffffffff",
       () => shouldStop
