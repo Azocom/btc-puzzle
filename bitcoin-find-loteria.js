@@ -36,6 +36,7 @@ function gerarValorAleatorio(minimo, maximo) {
 
       // console.clear();
       for (let index = 0; index <= loop; index++) {
+        //0000000000000000000000000000000000000000000000000000000000000000
         pkey[index] = `c0de0000000000000000000000000000000000000000000032${("00000000000000" + gerarValorAleatorio(lmin, lmax) ).slice(-lmin.length)}`;
         publicKey[index] = generatePublic(pkey[index]);
         // console.log(`Ultima chave tentada ${("00" + (index+1)).slice(-2)} : `, pkey[index] ,publicKey[index] );
