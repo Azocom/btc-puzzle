@@ -58,9 +58,10 @@ if (modo == "E") {
 } else {
   try {
     encontrarBitcoinsLoteria(
-      2,
-      "40000000000000000",
-      "7ffffffffffffffff",
+      BigInt("1000000000000000"),
+      BigInt("200000000000000"),
+      "10000000",
+      "1fffffff",
       () => shouldStop
     );
   } catch (err) {

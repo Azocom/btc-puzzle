@@ -7,7 +7,7 @@ const wallets = [
   "1PitScNLyp2HCygzadCh7FveTnfmpPbfp8",
   "1McVt1vMtCC7yn5b9wgX1833yCcLXzueeC",
   "1M92tSqNmQLYw33fuBvjmeadirh1ysMBxK",
-  "1CQFwcjw1dwhtkVWBttNLDtqL7ivBonGPV",
+  // "1CQFwcjw1dwhtkVWBttNLDtqL7ivBonGPV",
   "1LeBZP5QCwwgXRtmVUvTVrraqPUokyLHqe",
   "1PgQVLmst3Z314JrQn5TNiys8Hc38TcXJu",
   "1DBaumZxUkM4qMQRt2LVWyFJq5kDtSZQot",
@@ -173,7 +173,6 @@ const wallets2 = [
   "1EAi9TpWPEJQ38opjZNzdUTMvDQ7qJKHio",
   "1AJqYyi9puxtviX12LbqmGN3HZLNydSKYN",
   "1HQtt85VpmyL8YPB6Yv2idFbeQqmQYwFHX",
-]
-
+];
 
 export default wallets;
