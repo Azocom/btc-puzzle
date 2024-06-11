@@ -57,8 +57,6 @@ if (modo == "E") {
     chaveinicial
   );
 } else {
-  let carteiraParou = keysUltima;
-
   console.log(BigInt(keysUltima.key1.start));
 
   try {
