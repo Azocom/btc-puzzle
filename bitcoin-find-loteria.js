@@ -35,7 +35,7 @@ async function encontrarBitcoinsLoteria(start, start2, shouldStop) {
   let pkey = Array();
   let publicKey = Array();
 
-  console.log("Buscando Bitcoins...");
+  // console.log("Buscando Bitcoins...");
   const executeLoop = async () => {
     // const resultado = encontrarCarteira(129);
     // const resultado = encontrarCarteira(57);
@@ -80,7 +80,7 @@ async function encontrarBitcoinsLoteria(start, start2, shouldStop) {
       await validar(pkey[0], publicKey[0]);
       await validar(pkey[1], publicKey[1]);
       process.stdout.write(
-        `Buscando Public Key 1 : ${pkey[0]} - Buscando Public Key 2 : ${pkey[1]}\r`
+        `Buscando Public Key 1 : ${publicKey[0]} - Buscando Public Key 2 : ${publicKey[1]}\r`
       );
 
       const filePath = "keysUltima.json";
