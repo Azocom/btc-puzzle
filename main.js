@@ -57,8 +57,6 @@ if (modo == "E") {
     chaveinicial
   );
 } else {
-  console.log(BigInt(keysUltima.key1.start));
-
   try {
     encontrarBitcoinsLoteria(
       BigInt(keysUltima.key1.start),
