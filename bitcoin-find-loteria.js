@@ -29,7 +29,7 @@ function retornaZeros(numero) {
   return zeros;
 }
 
-async function encontrarBitcoinsLoteria(start, start2, lmin, lmax, shouldStop) {
+async function encontrarBitcoinsLoteria(start, start2, shouldStop) {
   let pkeyZ = 0;
   let pkeyZ2 = 0;
   let pkey = Array();
@@ -80,7 +80,7 @@ async function encontrarBitcoinsLoteria(start, start2, lmin, lmax, shouldStop) {
       await validar(pkey[0], publicKey[0]);
       await validar(pkey[1], publicKey[1]);
       process.stdout.write(
-        `${start}-${start2} / Buscando Public Key 1 : ${pkey[0]} - Buscando Public Key 2 : ${pkey[1]}\r`
+        `Buscando Public Key 1 : ${pkey[0]} - Buscando Public Key 2 : ${pkey[1]}\r`
       );
 
       const filePath = "keysUltima.json";

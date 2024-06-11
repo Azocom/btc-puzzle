@@ -2,6 +2,7 @@
 import encontrarBitcoinsLoteria from "./bitcoin-find-loteria.js";
 import encontrarBitcoins from "./bitcoin-find.js";
 import ultimaChave from "./chave.json" assert { type: "json" };
+import keysUltima from "./keysUltima.json" assert { type: "json" };
 import ranges from "./ranges.js";
 
 let key,
@@ -56,15 +57,17 @@ if (modo == "E") {
     chaveinicial
   );
 } else {
+  let carteiraParou = keysUltima;
+
+  console.log(BigInt(keysUltima.key1.start));
+
   try {
     encontrarBitcoinsLoteria(
-      BigInt("1000000000000000"),
-      BigInt("200000000000000"),
-      "10000000",
-      "1fffffff",
+      BigInt(keysUltima.key1.start),
+      BigInt(keysUltima.key2.start),
       () => shouldStop
     );
   } catch (err) {
-    console.error("Erroß:", err);
+    console.error("Erro:", err);
   }
 }
