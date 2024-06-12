@@ -60,7 +60,7 @@ function retornaZeros(numero) {
 }
 
 // exit();
-
+console.clear();
 // async function encontrarBitcoinsLoteria(
 //   idDispositivo,
 //   start, 1000000000075029
@@ -70,7 +70,9 @@ function retornaZeros(numero) {
 //   shouldStop
 // ) {
 
-let idDispositivo = 1;
+const args = process.argv.slice(2);
+
+let idDispositivo = args[0] ?? 1;
 
 let sqlQuery = await startSql(idDispositivo);
 
