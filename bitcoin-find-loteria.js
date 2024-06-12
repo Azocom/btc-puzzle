@@ -22,6 +22,13 @@ function gerarValorAleatorio(minimo, maximo) {
   return valorAleatorioDecimal.toString(16);
 }
 
+function retornaMaximo(minimo, maximo) {
+  const minimoDecimal = parseInt(minimo, 16);
+  const maximoDecimal = parseInt(maximo, 16);
+  const valorDecimal = maximoDecimal - minimoDecimal + minimoDecimal;
+  return valorDecimal;
+}
+
 function retornaZeros(numero) {
   let zeros = `${"00000000000000000000000000000000000000000000000000000000000000000".slice(
     +numero
@@ -29,11 +36,17 @@ function retornaZeros(numero) {
   return zeros;
 }
 
-async function encontrarBitcoinsLoteria(start, start2, shouldStop) {
+async function encontrarBitcoinsLoteria(start, start2, end, end2, shouldStop) {
   let pkeyZ = 0;
   let pkeyZ2 = 0;
+  let pkeyL = 0;
+  let pkeyL2 = retornaMaximo(start2, end2);
+  let pkeyL22 = retornaMaximo(start2, end2);
   let pkey = Array();
   let publicKey = Array();
+
+  // pkeyL2 = retornaMaximo(start2, end2);
+  console.log("Buscando Bitcoins...", end2);
 
   // console.log("Buscando Bitcoins...");
   const executeLoop = async () => {
@@ -43,9 +56,17 @@ async function encontrarBitcoinsLoteria(start, start2, shouldStop) {
     while (!shouldStop()) {
       //console.clear();
       start++;
-      start2++;
       pkeyZ = start.toString(16);
+
+      start2++;
       pkeyZ2 = start2.toString(16);
+
+      // end--;
+      // pkeyL = end.toString(16);
+
+      // pkeyL2--;
+      // pkeyL22 = pkeyL2.toString(16);
+
       //for (let index = 0; index <= loop; index++) {
 
       //c0de0000000000000000000000000000000000000000000032000b5e620f481b8
@@ -55,14 +76,13 @@ async function encontrarBitcoinsLoteria(start, start2, shouldStop) {
       //   "00000000000000" +
       //   gerarValorAleatorio("20000000000000", "ffffffffffffff")
       // ).slice(-"ffffffffffffff".length)}`;
-      pkey[2] = Number(start2);
       pkey[0] =
         "c0de0000000000000000000000000000000000000000000032" +
         retornaZeros(pkeyZ2.length + 50) +
         pkeyZ2; //gerarValorAleatorio(lmin, lmax);
 
       pkey[1] = retornaZeros(pkeyZ.length) + pkeyZ; //gerarValorAleatorio(lmin, lmax);
-      // console.log(pkey[1]);
+      // console.log(pkeyL2);
       //exit();
 
       //                                                10000000000000000
@@ -80,7 +100,7 @@ async function encontrarBitcoinsLoteria(start, start2, shouldStop) {
       await validar(pkey[0], publicKey[0]);
       await validar(pkey[1], publicKey[1]);
       process.stdout.write(
-        `Buscando Public Key 1 : ${publicKey[0]} - Buscando Public Key 2 : ${publicKey[1]}\r`
+        `${pkeyL22} - Buscando Public Key 1 : ${publicKey[0]} - Buscando Public Key 2 : ${publicKey[1]}\r`
       );
 
       const filePath = "keysUltima.json";

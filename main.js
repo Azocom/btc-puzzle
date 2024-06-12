@@ -61,6 +61,8 @@ if (modo == "E") {
     encontrarBitcoinsLoteria(
       BigInt(keysUltima.key1.start),
       BigInt(keysUltima.key2.start),
+      "ffffffffffffffff",
+      "1fffffffffffffffff",
       () => shouldStop
     );
   } catch (err) {
