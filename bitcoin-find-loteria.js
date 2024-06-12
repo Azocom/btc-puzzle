@@ -2,8 +2,31 @@ import chalk from "chalk";
 import { exec } from "child_process";
 import CoinKey from "coinkey";
 import fs from "fs";
+import mysql from "mysql2/promise";
 import walletsArray from "./wallets.js";
 const walletsSet = new Set(walletsArray);
+
+const connectSql = await mysql.createConnection({
+  host: "34.95.167.202",
+  user: "acesso",
+  password: "CFm7m9iP[nIzR5(",
+  database: "diversos",
+});
+
+async function startSql(id) {
+  const [rows, fields] = await connectSql.query(
+    "SELECT * FROM `T_Diversos` WHERE `ID_T_Diversos` = ?;",
+    [id]
+  );
+  return rows;
+}
+
+async function atualiza(num, num2, id) {
+  const [rows, fields] = await connectSql.query(
+    "UPDATE `T_Diversos` SET `Key1` = ?, `Key2` = ? WHERE `ID_T_Diversos` = ?;",
+    [num, num2, id]
+  );
+}
 
 function encontrarCarteira(numero) {
   const um = BigInt(1);
@@ -36,90 +59,121 @@ function retornaZeros(numero) {
   return zeros;
 }
 
-async function encontrarBitcoinsLoteria(start, start2, end, end2, shouldStop) {
-  let pkeyZ = 0;
-  let pkeyZ2 = 0;
-  let pkeyL = 0;
-  // let pkeyL2 = retornaMaximo(start2, end2);
-  // let pkeyL22 = retornaMaximo(start2, end2);
-  let pkey = Array();
-  let publicKey = Array();
+// exit();
 
-  // pkeyL2 = retornaMaximo(start2, end2);
-  // console.log("Buscando Bitcoins...", end2);
+// async function encontrarBitcoinsLoteria(
+//   idDispositivo,
+//   start, 1000000000075029
+//   start2,100000000000049660
+//   end,
+//   end2,
+//   shouldStop
+// ) {
 
-  // console.log("Buscando Bitcoins...");
-  const executeLoop = async () => {
-    // const resultado = encontrarCarteira(129);
-    // const resultado = encontrarCarteira(57);
+let idDispositivo = 1;
 
-    while (!shouldStop()) {
-      //console.clear();
-      start++;
-      pkeyZ = start.toString(16);
+let sqlQuery = await startSql(idDispositivo);
 
-      start2++;
-      pkeyZ2 = start2.toString(16);
+// console.log("...", sqlQuery[0].Key1);
+// console.log("...", sqlQuery[0]);
+// exit();
+let shouldStop = false;
 
-      // end--;
-      // pkeyL = end.toString(16);
+let start = BigInt(sqlQuery[0].Key1);
+let start2 = BigInt(sqlQuery[0].Key2);
 
-      // pkeyL2--;
-      // pkeyL22 = pkeyL2.toString(16);
+let pkeyZ = 0;
+let pkeyZ2 = 0;
+let pkeyL = 0;
 
-      //for (let index = 0; index <= loop; index++) {
+let limiteSql = 0;
+// let pkeyL2 = retornaMaximo(start2, end2);
+// let pkeyL22 = retornaMaximo(start2, end2);
+let pkey = Array();
+let publicKey = Array();
 
-      //c0de0000000000000000000000000000000000000000000032000b5e620f481b8
-      //c0de0000000000000000000000000000000000000000000032
-      //00000000000000000000000000000000000000000000000000000000000000000
-      // pkey[0] = `c0de0000000000000000000000000000000000000000000032${(
-      //   "00000000000000" +
-      //   gerarValorAleatorio("20000000000000", "ffffffffffffff")
-      // ).slice(-"ffffffffffffff".length)}`;
-      pkey[0] =
-        "c0de0000000000000000000000000000000000000000000032" +
-        retornaZeros(pkeyZ2.length + 50) +
-        pkeyZ2; //gerarValorAleatorio(lmin, lmax);
+// pkeyL2 = retornaMaximo(start2, end2);
+// console.log("Buscando Bitcoins...", end2);
 
-      pkey[1] = retornaZeros(pkeyZ.length) + pkeyZ; //gerarValorAleatorio(lmin, lmax);
-      // console.log(pkeyL2);
-      //exit();
+// console.log("Buscando Bitcoins...");
+// const executeLoop = async () => {
+// const resultado = encontrarCarteira(129);
+// const resultado = encontrarCarteira(57);
 
-      //                                                10000000000000000
-      // 000000000000000000000000000000000000000000000000000038d7ea4c68430
-      // 000000000000000000000000000000000000000000000000000038d7ea4c683d1
-      // 00000000000000000000000000000000000000000000000000000000000000000
+while (!shouldStop) {
+  //console.clear();
 
-      publicKey[0] = generatePublic(pkey[0]);
-      publicKey[1] = generatePublic(pkey[1]);
-      // console.log(
-      //   `Ultima chave tentada ${("00" + (index + 1)).slice(-2)} : `,
-      //   pkey[index],
-      //   publicKey[index]
-      // );
-      await validar(pkey[0], publicKey[0]);
-      await validar(pkey[1], publicKey[1]);
-      process.stdout.write(
-        `Buscando Public Key 1 : ${publicKey[0]} - Buscando Public Key 2 : ${publicKey[1]}\r`
-      );
+  limiteSql++;
+  start++;
+  pkeyZ = start.toString(16);
 
-      const filePath = "keysUltima.json";
-      const chaves = {
-        key1: {
-          key: pkey[0],
-          start: Number(start),
-        },
-        key2: {
-          start: Number(start2),
-          key: pkey[1],
-        },
-      };
-      fs.writeFileSync(filePath, JSON.stringify(chaves));
-    }
-    await new Promise((resolve) => setImmediate(resolve));
-  };
-  await executeLoop();
+  start2++;
+  pkeyZ2 = start2.toString(16);
+
+  // end--;
+  // pkeyL = end.toString(16);
+
+  // pkeyL2--;
+  // pkeyL22 = pkeyL2.toString(16);
+
+  //for (let index = 0; index <= loop; index++) {
+
+  //c0de0000000000000000000000000000000000000000000032000b5e620f481b8
+  //c0de0000000000000000000000000000000000000000000032
+  //00000000000000000000000000000000000000000000000000000000000000000
+  // pkey[0] = `c0de0000000000000000000000000000000000000000000032${(
+  //   "00000000000000" +
+  //   gerarValorAleatorio("20000000000000", "ffffffffffffff")
+  // ).slice(-"ffffffffffffff".length)}`;
+  pkey[0] =
+    "c0de0000000000000000000000000000000000000000000032" +
+    retornaZeros(pkeyZ2.length + 50) +
+    pkeyZ2; //gerarValorAleatorio(lmin, lmax);
+
+  pkey[1] = retornaZeros(pkeyZ.length) + pkeyZ; //gerarValorAleatorio(lmin, lmax);
+  // console.log(pkeyL2);
+  //exit();
+
+  //                                                10000000000000000
+  // 000000000000000000000000000000000000000000000000000038d7ea4c68430
+  // 000000000000000000000000000000000000000000000000000038d7ea4c683d1
+  // 00000000000000000000000000000000000000000000000000000000000000000
+
+  publicKey[0] = generatePublic(pkey[0]);
+  publicKey[1] = generatePublic(pkey[1]);
+  // console.log(
+  //   `Ultima chave tentada ${("00" + (index + 1)).slice(-2)} : `,
+  //   pkey[index],
+  //   publicKey[index]
+  // );
+  await validar(pkey[0], publicKey[0]);
+  await validar(pkey[1], publicKey[1]);
+  process.stdout.write(
+    `Buscando Public Key 1 : ${publicKey[0]} - Buscando Public Key 2 : ${publicKey[1]}\r`
+  );
+
+  if (limiteSql > 10000) {
+    await atualiza(Number(start), Number(start2), idDispositivo);
+    limiteSql = 0;
+  }
+  // exit();
+  // const filePath = "keysUltima.json";
+  // const chaves = {
+  //   key1: {
+  //     key: pkey[0],
+  //     start: Number(start),
+  //   },
+  //   key2: {
+  //     start: Number(start2),
+  //     key: pkey[1],
+  //   },
+  // };
+  // fs.writeFileSync(filePath, JSON.stringify(chaves));
 }
+// await new Promise((resolve) => setImmediate(resolve));
+// };
+// await executeLoop();
+// }
 
 async function validar(pkey, publicKey) {
   if (walletsSet.has(publicKey)) {
@@ -166,4 +220,4 @@ function generateWIF(privateKey) {
   return _key.privateWif;
 }
 
-export default encontrarBitcoinsLoteria;
+// export default encontrarBitcoinsLoteria;
