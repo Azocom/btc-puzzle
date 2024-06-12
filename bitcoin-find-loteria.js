@@ -40,13 +40,13 @@ async function encontrarBitcoinsLoteria(start, start2, end, end2, shouldStop) {
   let pkeyZ = 0;
   let pkeyZ2 = 0;
   let pkeyL = 0;
-  let pkeyL2 = retornaMaximo(start2, end2);
-  let pkeyL22 = retornaMaximo(start2, end2);
+  // let pkeyL2 = retornaMaximo(start2, end2);
+  // let pkeyL22 = retornaMaximo(start2, end2);
   let pkey = Array();
   let publicKey = Array();
 
   // pkeyL2 = retornaMaximo(start2, end2);
-  console.log("Buscando Bitcoins...", end2);
+  // console.log("Buscando Bitcoins...", end2);
 
   // console.log("Buscando Bitcoins...");
   const executeLoop = async () => {
