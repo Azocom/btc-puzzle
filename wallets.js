@@ -85,17 +85,4 @@ const wallets = [
   "18bHfcm8kGoAhBaQXzzVcG5534mdpWK981",
 ];
 
-const wallets2 = [
-  "18bHfcm8kGoAhBaQXzzVcG5534mdpWK981",
-  "181CcnawMJdD7nGmYaB62enczYNS28kV14",
-  "12HUd5duzuYvfpqAiBQd77bpEZwk2cNkTC",
-  "1H2tkuAh5oWcWt1ztM76YJpeDZLoGXpeWY",
-  "1JPvEuWp8pSEPAc93ddAEBTW7iAwnCbiEq",
-  "1P2A4YumHp5Appb2iXVHGyMdqfxZntQP2t",
-  "1A44jbbmnktFWtgiuvSR2AxA1UQQnaJyth",
-  "1EAi9TpWPEJQ38opjZNzdUTMvDQ7qJKHio",
-  "1AJqYyi9puxtviX12LbqmGN3HZLNydSKYN",
-  "1HQtt85VpmyL8YPB6Yv2idFbeQqmQYwFHX",
-];
-
 export default wallets;

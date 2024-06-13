@@ -117,26 +117,30 @@ while (!shouldStop) {
   start++;
   pkeyZ = start.toString(16);
 
-  start2++;
-  pkeyZ2 = start2.toString(16);
+  // start2++;
+  // pkeyZ2 = start2.toString(16);
+
+  //c0de000000000000000000000000000000000000000000003200000000000000
+  //c0de00000000000000000000000000000000000000000000320009184e7e4c90
+
+  //c0de00000000000000000000000000000000000000000000321000000076432229
+
+  //c0de000000000000000000000000000000000000000000003216345786217e675
+  //000000000000000000000000000000000000000000000000000038d7ea954c998
 
   pkey[0] =
     "c0de0000000000000000000000000000000000000000000032" +
     retornaZeros(pkeyZ.length + 51) +
     pkeyZ; //gerarValorAleatorio(lmin, lmax);
 
-  pkey[1] = retornaZeros(pkeyZ2.length) + pkeyZ2; //gerarValorAleatorio(lmin, lmax);
+  // pkey[1] = retornaZeros(pkeyZ.length) + pkeyZ; //gerarValorAleatorio(lmin, lmax);
 
   publicKey[0] = generatePublic(pkey[0]);
-  publicKey[1] = generatePublic(pkey[1]);
+  // publicKey[1] = generatePublic(pkey[1]);
   await validar2(pkey[0], publicKey[0]);
-  await validar(pkey[1], publicKey[1]);
+  // await validar(pkey[1], publicKey[1]);
 
-  process.stdout.write(
-    `Buscando Public Key 1 : ${pkey[0] ?? "***"} - Buscando Public Key 2 : ${
-      pkey[1] ?? "***"
-    }\r`
-  );
+  process.stdout.write(`Buscando Public Key 1 : ${publicKey[0] ?? "***"}\r`);
 
   if (limiteSql > 10000) {
     await atualiza(Number(start), Number(start2), idDispositivo);
