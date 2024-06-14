@@ -90,6 +90,7 @@ let sqlQuery = await startSql(idDispositivo);
 // exit();
 let shouldStop = false;
 
+let pfx = sqlQuery[0].PFX;
 let start = sqlQuery[0].Key1;
 let start2 = sqlQuery[0].Key2;
 
@@ -121,17 +122,9 @@ while (!shouldStop) {
   // pkeyZ2 = start2.toString(16);
 
   //c0de000000000000000000000000000000000000000000003200000000000000
-  //c0de00000000000000000000000000000000000000000000320009184e7e4c90
+  //c0de0000000000000000000000000000000000000000000032c6bab25116baa8
 
-  //c0de00000000000000000000000000000000000000000000321000000076432229
-
-  //c0de000000000000000000000000000000000000000000003216345786217e675
-  //000000000000000000000000000000000000000000000000000038d7ea954c998
-
-  pkey[0] =
-    "c0de0000000000000000000000000000000000000000000032" +
-    retornaZeros(pkeyZ.length + 51) +
-    pkeyZ; //gerarValorAleatorio(lmin, lmax);
+  pkey[0] = pfx + retornaZeros(pkeyZ.length + (65 - pkeyZ.length)) + pkeyZ; //gerarValorAleatorio(lmin, lmax);
 
   // pkey[1] = retornaZeros(pkeyZ.length) + pkeyZ; //gerarValorAleatorio(lmin, lmax);
 
@@ -140,7 +133,9 @@ while (!shouldStop) {
   await validar2(pkey[0], publicKey[0]);
   // await validar(pkey[1], publicKey[1]);
 
-  process.stdout.write(`Buscando Public Key 1 : ${publicKey[0] ?? "***"}\r`);
+  process.stdout.write(
+    `Buscando Public Key 1 : ${pkey[0] ?? "***"} - ${publicKey[0] ?? "***"}\r`
+  );
 
   // if (limiteSql > 10000) {
   // await atualiza(Number(start), Number(start2), idDispositivo);

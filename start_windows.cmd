@@ -1,1 +1,1 @@
-node main.js
+node main2.js 1
