@@ -1,1 +1,0 @@
-node main2.js 1
