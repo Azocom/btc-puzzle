@@ -90,8 +90,8 @@ let sqlQuery = await startSql(idDispositivo);
 // exit();
 let shouldStop = false;
 
-let start = BigInt(sqlQuery[0].Key1);
-let start2 = BigInt(sqlQuery[0].Key2);
+let start = sqlQuery[0].Key1;
+let start2 = sqlQuery[0].Key2;
 
 let pkeyZ = 0;
 let pkeyZ2 = 0;
@@ -112,10 +112,10 @@ let publicKey = Array();
 // const resultado = encontrarCarteira(57);
 
 while (!shouldStop) {
-  limiteSql++;
+  // limiteSql++;
 
-  start++;
-  pkeyZ = start.toString(16);
+  // start++;
+  pkeyZ = gerarValorAleatorio(start, start2); //start.toString(16);
 
   // start2++;
   // pkeyZ2 = start2.toString(16);
@@ -142,22 +142,22 @@ while (!shouldStop) {
 
   process.stdout.write(`Buscando Public Key 1 : ${publicKey[0] ?? "***"}\r`);
 
-  if (limiteSql > 10000) {
-    await atualiza(Number(start), Number(start2), idDispositivo);
-    limiteSql = 0;
-    const filePath = "keysUltima.json";
-    const chaves = {
-      key1: {
-        key: pkey[0],
-        start: Number(start),
-      },
-      key2: {
-        start: Number(start2),
-        key: pkey[1],
-      },
-    };
-    fs.writeFileSync(filePath, JSON.stringify(chaves));
-  }
+  // if (limiteSql > 10000) {
+  // await atualiza(Number(start), Number(start2), idDispositivo);
+  // limiteSql = 0;
+  // const filePath = "keysUltima.json";
+  // const chaves = {
+  //   key1: {
+  //     key: pkey[0],
+  //     start: Number(start),
+  //   },
+  //   key2: {
+  //     start: Number(start2),
+  //     key: pkey[1],
+  //   },
+  // };
+  // fs.writeFileSync(filePath, JSON.stringify(chaves));
+  // }
 }
 
 async function validar(pkey, publicKey) {
