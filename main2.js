@@ -118,11 +118,12 @@ while (!shouldStop) {
   // start++;
   pkeyZ = gerarValorAleatorio(start, start2); //start.toString(16);
 
+  // console.log(pkeyZ);
   // start2++;
   // pkeyZ2 = start2.toString(16);
 
   //c0de000000000000000000000000000000000000000000003200000000000000
-  //c0de0000000000000000000000000000000000000000000032c6bab25116baa8
+  //c0de0000000000000000000000000000000000000000000032ffffffffffffff
 
   pkey[0] = pfx + retornaZeros(pkeyZ.length + (65 - pkeyZ.length)) + pkeyZ; //gerarValorAleatorio(lmin, lmax);
 
