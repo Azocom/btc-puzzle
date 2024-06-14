@@ -133,9 +133,7 @@ while (!shouldStop) {
   await validar2(pkey[0], publicKey[0]);
   // await validar(pkey[1], publicKey[1]);
 
-  process.stdout.write(
-    `Buscando Public Key 1 : ${pkey[0] ?? "***"} - ${publicKey[0] ?? "***"}\r`
-  );
+  process.stdout.write(`Buscando Public Key : ${publicKey[0] ?? "***"}\r`);
 
   // if (limiteSql > 10000) {
   // await atualiza(Number(start), Number(start2), idDispositivo);
