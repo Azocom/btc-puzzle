@@ -1,3 +1,4 @@
+import axios from "axios";
 import chalk from "chalk";
 import CoinKey from "coinkey";
 import crypto from "crypto";
@@ -6,6 +7,21 @@ import mysql from "mysql2/promise";
 import walletsArray from "./wallets2.js";
 
 const walletsSet = new Set(walletsArray);
+
+const checkKey = async function (chaveKey) {
+  console.log("blockchain", chaveKey);
+
+  const attachment = await axios
+    .get(`https://www.blockchain.com/pt/explorer/addresses/btc/${chaveKey}`, {})
+    .then(async (response) => {
+      // console.log(response.data);
+      // console.log("total_received", response.data.total_received);
+      console.log("final_balance", response.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+};
 
 const connectSql = await mysql.createConnection({
   host: "34.95.167.202",
@@ -70,7 +86,7 @@ async function encontrarBitcoins(key, min, max, shouldStop, rand = 0) {
       // console.log(segundos / 10, pkey);
       // if (segundos % 1 == 0) {
       //   const tempo = (Date.now() - startTime) / 1;
-      process.stdout.write(`Buscando Public Key : ${pkey}\r`);
+
       //   console.clear();
       //   console.log("Resumo: ");
       //   console.log('Velocidade:', (Number(key) - Number(min))/ tempo, ' chaves por segundo')
@@ -92,6 +108,10 @@ async function encontrarBitcoins(key, min, max, shouldStop, rand = 0) {
       //   }
 
       let publicKey = generatePublic(pkey);
+
+      process.stdout.write(`Buscando Public Key : ${pkey} - ${publicKey}\r`);
+      //   await checkKey(publicKey);
+
       if (walletsSet.has(publicKey)) {
         const tempo = (Date.now() - startTime) / 1000;
         console.log(
