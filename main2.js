@@ -1,6 +1,7 @@
 ﻿import chalk from "chalk";
 import { exec } from "child_process";
 import CoinKey from "coinkey";
+import crypto from "crypto";
 import fs from "fs";
 import mysql from "mysql2/promise";
 import walletsArray from "./wallets.js";
@@ -61,6 +62,23 @@ function retornaMaximo(minimo, maximo) {
   return valorDecimal;
 }
 
+function getRandomBigInt(min, max) {
+  if (min >= max) {
+    throw new Error("min should be less than max");
+  }
+
+  // Calculate the range
+  const range = max - min;
+
+  // Generate a random BigInt within the range
+  const randomBigIntInRange =
+    BigInt(`0x${crypto.randomBytes(32).toString("hex")}`) % range;
+
+  // Add the minimum value to get a number within the desired range
+  const randomBigInt = min + randomBigIntInRange;
+
+  return randomBigInt;
+}
 function retornaZeros(numero) {
   let zeros = `${"00000000000000000000000000000000000000000000000000000000000000000".slice(
     +numero
@@ -91,8 +109,11 @@ let sqlQuery = await startSql(idDispositivo);
 let shouldStop = false;
 
 let pfx = sqlQuery[0].PFX;
-let start = sqlQuery[0].Key1;
-let start2 = sqlQuery[0].Key2;
+
+let start = BigInt(sqlQuery[0].Key1);
+
+let startX = BigInt(sqlQuery[0].Key1);
+let start2 = BigInt(sqlQuery[0].Key2);
 
 let pkeyZ = 0;
 let pkeyZ2 = 0;
@@ -103,7 +124,9 @@ let limiteSql = 0;
 // let pkeyL22 = retornaMaximo(start2, end2);
 let pkey = Array();
 let publicKey = Array();
-
+const startTime = Date.now();
+const zeroes = Array.from({ length: 65 }, (_, i) => "0".repeat(64 - i));
+let segundos = 0;
 // pkeyL2 = retornaMaximo(start2, end2);
 // console.log("Buscando Bitcoins...", end2);
 
@@ -115,43 +138,65 @@ let publicKey = Array();
 while (!shouldStop) {
   // limiteSql++;
 
-  // start++;
-  pkeyZ = gerarValorAleatorio(start, start2); //start.toString(16);
+  start++;
+  pkeyZ = getRandomBigInt(start, start2); //start.toString(16);
+  //pkeyZ = start.toString(16);
 
-  // console.log(pkeyZ);
+  console.log(start);
+  console.log(pkeyZ);
+  exit();
+
   // start2++;
   // pkeyZ2 = start2.toString(16);
 
-  //c0de000000000000000000000000000000000000000000003200000000000000
-  //c0de0000000000000000000000000000000000000000000032ffffffffffffff
+  //0xC0DE000000000000000000000000000000000000000000003270000000000000
+  //0xC0DE00000000000000000000000000000000000000000000327fffffffffffff
+  //0xc0de000000000000000000000000000000000000000000003270000000000001
+  //3270000000000000
+  //b9e0c346a6001
 
-  pkey[0] = pfx + retornaZeros(pkeyZ.length + (65 - pkeyZ.length)) + pkeyZ; //gerarValorAleatorio(lmin, lmax);
-
+  pkey[0] = pkeyZ; //`${zeroes[pkeyZ.length]}${pkeyZ}`; //pfx + zeroes(pkeyZ.length) + pkeyZ; //gerarValorAleatorio(lmin, lmax);
   // pkey[1] = retornaZeros(pkeyZ.length) + pkeyZ; //gerarValorAleatorio(lmin, lmax);
-
   publicKey[0] = generatePublic(pkey[0]);
+
   // publicKey[1] = generatePublic(pkey[1]);
   await validar2(pkey[0], publicKey[0]);
   // await validar(pkey[1], publicKey[1]);
 
-  process.stdout.write(`Buscando Public Key : ${publicKey[0] ?? "***"}\r`);
+  process.stdout.write(`Buscando Public Key : ${pkey[0]} - ${publicKey[0]}\r`);
 
-  // if (limiteSql > 10000) {
-  // await atualiza(Number(start), Number(start2), idDispositivo);
-  // limiteSql = 0;
-  // const filePath = "keysUltima.json";
-  // const chaves = {
-  //   key1: {
-  //     key: pkey[0],
-  //     start: Number(start),
-  //   },
-  //   key2: {
-  //     start: Number(start2),
-  //     key: pkey[1],
-  //   },
-  // };
-  // fs.writeFileSync(filePath, JSON.stringify(chaves));
-  // }
+  if (Date.now() - startTime > segundos) {
+    segundos += 1000;
+    if (segundos % 10000 === 0) {
+      const tempo = (Date.now() - startTime) / 1000;
+      console.clear();
+      console.log("Resumo: ");
+      console.log(
+        "Velocidade:",
+        (Number(start) - Number(startX)) / tempo,
+        " chaves por segundo"
+      );
+      console.log(
+        "Chaves buscadas: ",
+        (start - startX).toLocaleString("pt-BR")
+      );
+      console.log("Ultima chave tentada: ", pkey[0]);
+      // await atualiza(Number(start), Number(start2), idDispositivo);
+      // limiteSql = 0;
+      // const filePath = "keysUltima.json";
+      // const chaves = {
+      //   key1: {
+      //     key: pkey[0],
+      //     start: Number(start),
+      //   },
+      //   key2: {
+      //     start: Number(start2),
+      //     key: pkey[1],
+      //   },
+      // };
+      // fs.writeFileSync(filePath, JSON.stringify(chaves));
+    }
+  }
 }
 
 async function validar(pkey, publicKey) {
