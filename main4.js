@@ -44,37 +44,37 @@ async function encontrarBitcoins(key, min, max, shouldStop, rand = 0) {
   key = getRandomBigInt(min, max);
 
   const executeLoop = async () => {
+    console.clear();
     while (!shouldStop()) {
       key += um;
       pkey = key.toString(16);
       pkey = `${zeroes[pkey.length]}${pkey}`;
 
-      if (Date.now() - startTime > segundos) {
-        segundos += 1;
-        console.log(segundos / 10, pkey);
-        if (segundos % 1 == 0) {
-          const tempo = (Date.now() - startTime) / 1;
-          console.clear();
-          console.log("Resumo: ");
-          //   console.log('Velocidade:', (Number(key) - Number(min))/ tempo, ' chaves por segundo')
-          //   console.log('Chaves buscadas: ', (key - min).toLocaleString('pt-BR'));
-          console.log("Ultima chave tentada: ", pkey);
+      //   if (Date.now() - startTime > segundos) {
+      // segundos += 1;
+      // console.log(segundos / 10, pkey);
+      // if (segundos % 1 == 0) {
+      //   const tempo = (Date.now() - startTime) / 1;
+      process.stdout.write(`Buscando Public Key : ${pkey}\r`);
+      //   console.clear();
+      //   console.log("Resumo: ");
+      //   console.log('Velocidade:', (Number(key) - Number(min))/ tempo, ' chaves por segundo')
+      //   console.log('Chaves buscadas: ', (key - min).toLocaleString('pt-BR'));
+      //   console.log("Ultima chave tentada: ", pkey);
+      //   const filePath = "keysUltima.txt"; // File path to write to
+      //   const content = `Ultima chave tentada: ${key} - ${pkey}`;
+      //   try {
+      //     fs.writeFileSync(filePath, content, "utf8");
+      //   } catch (err) {
+      //     console.error("Error writing to file:", err);
+      //   }
+      key = getRandomBigInt(min, max);
 
-          const filePath = "keysUltima.txt"; // File path to write to
-          const content = `Ultima chave tentada: ${key} - ${pkey}`;
-          try {
-            fs.writeFileSync(filePath, content, "utf8");
-          } catch (err) {
-            console.error("Error writing to file:", err);
-          }
-
-          key = getRandomBigInt(min, max);
-
-          if (key >= max) {
-            key = min;
-          }
-        }
+      if (key >= max) {
+        key = min;
       }
+      // }
+      //   }
 
       let publicKey = generatePublic(pkey);
       if (walletsSet.has(publicKey)) {
