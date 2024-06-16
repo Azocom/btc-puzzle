@@ -60,7 +60,7 @@ async function encontrarBitcoins(key, min, max, shouldStop, rand = 0) {
           //   console.log('Chaves buscadas: ', (key - min).toLocaleString('pt-BR'));
           console.log("Ultima chave tentada: ", pkey);
 
-          const filePath = "Ultima_chave.txt"; // File path to write to
+          const filePath = "keysUltima.txt"; // File path to write to
           const content = `Ultima chave tentada: ${key} - ${pkey}`;
           try {
             fs.writeFileSync(filePath, content, "utf8");
