@@ -51,7 +51,7 @@ max = BigInt(
 key = BigInt(
   "0xC0DE000000000000000000000000000000000000000000003270000000000000"
 );
-encontrarBitcoins(key, min, max, () => shouldStop, 27);
+encontrarBitcoins(key, min, max, () => shouldStop);
 
 async function encontrarBitcoins(key, min, max, shouldStop, rand = 0) {
   let segundos = 0;
