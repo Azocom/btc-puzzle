@@ -50,10 +50,10 @@ async function encontrarBitcoins(key, min, max, shouldStop, rand = 0) {
       pkey = `${zeroes[pkey.length]}${pkey}`;
 
       if (Date.now() - startTime > segundos) {
-        segundos += 10;
+        segundos += 1;
         console.log(segundos / 10, pkey);
-        if (segundos % 10 == 0) {
-          const tempo = (Date.now() - startTime) / 10;
+        if (segundos % 1 == 0) {
+          const tempo = (Date.now() - startTime) / 1;
           console.clear();
           console.log("Resumo: ");
           //   console.log('Velocidade:', (Number(key) - Number(min))/ tempo, ' chaves por segundo')
@@ -61,7 +61,7 @@ async function encontrarBitcoins(key, min, max, shouldStop, rand = 0) {
           console.log("Ultima chave tentada: ", pkey);
 
           const filePath = "Ultima_chave.txt"; // File path to write to
-          const content = `Ultima chave tentada: ${pkey}`;
+          const content = `Ultima chave tentada: ${key} - ${pkey}`;
           try {
             fs.writeFileSync(filePath, content, "utf8");
           } catch (err) {
