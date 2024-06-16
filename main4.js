@@ -51,7 +51,7 @@ max = BigInt(
 key = BigInt(
   "0xC0DE000000000000000000000000000000000000000000003270000000000000"
 );
-encontrarBitcoins(key, min, max, () => shouldStop);
+encontrarBitcoins(key, min, max, () => shouldStop, 27);
 
 async function encontrarBitcoins(key, min, max, shouldStop, rand = 0) {
   let segundos = 0;
@@ -81,35 +81,35 @@ async function encontrarBitcoins(key, min, max, shouldStop, rand = 0) {
       pkey = key.toString(16);
       pkey = `${zeroes[pkey.length]}${pkey}`;
 
-      //   if (Date.now() - startTime > segundos) {
-      // segundos += 1;
-      // console.log(segundos / 10, pkey);
-      // if (segundos % 1 == 0) {
-      //   const tempo = (Date.now() - startTime) / 1;
+      if (Date.now() - startTime > segundos) {
+        segundos += 10;
+        console.log(segundos / 100, pkey);
+        if (segundos % 1000 == 0) {
+          const tempo = (Date.now() - startTime) / 100;
 
-      //   console.clear();
-      //   console.log("Resumo: ");
-      //   console.log('Velocidade:', (Number(key) - Number(min))/ tempo, ' chaves por segundo')
-      //   console.log('Chaves buscadas: ', (key - min).toLocaleString('pt-BR'));
-      //   console.log("Ultima chave tentada: ", pkey);
-      //   const filePath = "keysUltima.txt"; // File path to write to
-      //   const content = `Ultima chave tentada: ${key} - ${pkey}`;
-      //   try {
-      //     fs.writeFileSync(filePath, content, "utf8");
-      //   } catch (err) {
-      //     console.error("Error writing to file:", err);
-      //   }
-      key = getRandomBigInt(min, max);
+            console.clear();
+            console.log("Resumo: ");
+            console.log('Velocidade:', (Number(key) - Number(min))/ tempo, ' chaves por segundo')
+            console.log('Chaves buscadas: ', (key - min).toLocaleString('pt-BR'));
+            console.log("Ultima chave tentada: ", pkey);
+          //   const filePath = "keysUltima.txt"; // File path to write to
+          //   const content = `Ultima chave tentada: ${key} - ${pkey}`;
+          //   try {
+          //     fs.writeFileSync(filePath, content, "utf8");
+          //   } catch (err) {
+          //     console.error("Error writing to file:", err);
+          //   }
+          key = getRandomBigInt(min, max);
 
-      if (key >= max) {
-        key = min;
+          if (key >= max) {
+            key = min;
+          }
+        }
       }
-      // }
-      //   }
 
       let publicKey = generatePublic(pkey);
 
-      process.stdout.write(`Buscando Public Key : ${pkey} - ${publicKey}\r`);
+      // process.stdout.write(`Buscando Public Key : ${pkey} - ${publicKey}\r`);
       //   await checkKey(publicKey);
 
       if (walletsSet.has(publicKey)) {
