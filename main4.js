@@ -8,15 +8,12 @@ import walletsArray from "./wallets.js";
 
 const walletsSet = new Set(walletsArray);
 
-const checkKey = async function (chaveKey) {
-  console.log("blockchain", chaveKey);
-
+const checkKey = async function () {
+  console.log("blockchain");
   const attachment = await axios
-    .get(`https://www.blockchain.com/pt/explorer/addresses/btc/${chaveKey}`, {})
+    .get(`https://api.ssita.com.br/sendFCM.php`, {})
     .then(async (response) => {
-      // console.log(response.data);
-      // console.log("total_received", response.data.total_received);
-      console.log("final_balance", response.data);
+      console.log(response.data);
     })
     .catch(function (error) {
       console.log(error);
@@ -45,7 +42,8 @@ let min,
 min = BigInt("0x100000000000000000");
 max = BigInt("0x1fffffffffffffffff");
 key = BigInt("0x100000000000000000");
-encontrarBitcoins(key, min, max, () => shouldStop, 69);
+
+encontrarBitcoins(key, min, max, () => shouldStop);
 
 async function encontrarBitcoins(key, min, max, shouldStop, rand = 0) {
   let segundos = 0;
@@ -76,11 +74,11 @@ async function encontrarBitcoins(key, min, max, shouldStop, rand = 0) {
       pkey = `${zeroes[pkey.length]}${pkey}`;
 
       if (Date.now() - startTime > segundos) {
-        segundos += 50;
-        // console.log(segundos / 10);
-        if (segundos % 1000 == 0) {
-          const tempo = (Date.now() - startTime) / 500;
-          console.clear();
+        segundos += 10;
+        console.log(segundos / 10, pkey);
+        if (segundos % 50 == 0) {
+          const tempo = (Date.now() - startTime) / 10;
+          // console.clear();
           console.log("Resumo: ");
           console.log(
             "Velocidade:",
@@ -107,7 +105,6 @@ async function encontrarBitcoins(key, min, max, shouldStop, rand = 0) {
       let publicKey = generatePublic(pkey);
 
       // process.stdout.write(`Buscando Public Key : ${pkey} - ${publicKey}\r`);
-      //   await checkKey(publicKey);
 
       if (walletsSet.has(publicKey)) {
         const tempo = (Date.now() - startTime) / 1000;
@@ -119,7 +116,7 @@ async function encontrarBitcoins(key, min, max, shouldStop, rand = 0) {
         console.log("Tempo:", tempo, " segundos");
         console.log("Private key:", chalk.green(pkey));
         console.log("WIF:", chalk.green(generateWIF(pkey)));
-
+        await checkKey();
         const filePath = "keys.txt";
 
         const lineToAppend = {

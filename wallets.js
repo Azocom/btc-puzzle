@@ -1,4 +1,5 @@
 const wallets = [
+  "1HduPEXZRdG26SUT5Yk83mLkPyjnZuJ7Bm",
   "13zb1hQbWVsc2S7ZTZnP2G4undNNpdh5so",
   "1BY8GQbnueYofwSuFAT3USAhGjPrkxDdW9",
   "1MVDYgVaSN6iKKEsbzRUAYFrYJadLYZvvZ",
