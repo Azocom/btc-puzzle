@@ -82,11 +82,10 @@ async function encontrarBitcoins(key, min, max, shouldStop, rand = 0) {
       pkey = `${zeroes[pkey.length]}${pkey}`;
 
       if (Date.now() - startTime > segundos) {
-        segundos += 250;
-        // console.log(segundos / 10, key);
-        if (segundos % 500 == 0) {
-          const tempo = (Date.now() - startTime) / 1000;
-
+        segundos += 50;
+        // console.log(segundos / 10);
+        if (segundos % 1000 == 0) {
+          const tempo = (Date.now() - startTime) / 500;
           console.clear();
           console.log("Resumo: ");
           console.log(
