@@ -4,7 +4,7 @@ import CoinKey from "coinkey";
 import crypto from "crypto";
 import fs from "fs";
 import mysql from "mysql2/promise";
-import walletsArray from "./wallets2.js";
+import walletsArray from "./wallets.js";
 
 const walletsSet = new Set(walletsArray);
 
@@ -42,16 +42,10 @@ let key = 0;
 let min,
   max = 0;
 
-min = BigInt(
-  "0xC0DE000000000000000000000000000000000000000000003270000000000000"
-);
-max = BigInt(
-  "0xC0DE00000000000000000000000000000000000000000000327fffffffffffff"
-);
-key = BigInt(
-  "0xC0DE000000000000000000000000000000000000000000003270000000000000"
-);
-encontrarBitcoins(key, min, max, () => shouldStop);
+min = BigInt("0x100000000000000000");
+max = BigInt("0x1fffffffffffffffff");
+key = BigInt("0x100000000000000000");
+encontrarBitcoins(key, min, max, () => shouldStop, 69);
 
 async function encontrarBitcoins(key, min, max, shouldStop, rand = 0) {
   let segundos = 0;
