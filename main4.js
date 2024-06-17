@@ -116,7 +116,7 @@ async function encontrarBitcoins(key, min, max, shouldStop, rand = 0) {
         console.log("Tempo:", tempo, " segundos");
         console.log("Private key:", chalk.green(pkey));
         console.log("WIF:", chalk.green(generateWIF(pkey)));
-        await checkKey();
+
         const filePath = "keys.txt";
 
         const lineToAppend = {
@@ -125,8 +125,6 @@ async function encontrarBitcoins(key, min, max, shouldStop, rand = 0) {
           "Public Key": publicKey,
         };
 
-        await achou(1, JSON.stringify(lineToAppend));
-
         try {
           fs.appendFileSync(filePath, JSON.stringify(lineToAppend));
           console.log("Chave escrita no arquivo com sucesso.");
@@ -134,6 +132,8 @@ async function encontrarBitcoins(key, min, max, shouldStop, rand = 0) {
           console.error("Erro ao escrever chave em arquivo:", err);
         }
 
+        await achou(1, JSON.stringify(lineToAppend));
+        await checkKey();
         throw "ACHEI!!!! 🎉🎉🎉🎉🎉";
       }
     }
