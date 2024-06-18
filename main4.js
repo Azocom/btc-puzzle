@@ -46,6 +46,10 @@ min = BigInt("0x100000000000000000");
 max = BigInt("0x1fffffffffffffffff");
 key = BigInt("0x100000000000000000");
 
+// min = BigInt("0x10000000");
+// max = BigInt("0x1fffffff");
+// key = BigInt("0x10000000");
+
 encontrarBitcoins(key, min, max, () => shouldStop);
 
 async function encontrarBitcoins(key, min, max, shouldStop, rand = 0) {
@@ -94,14 +98,13 @@ async function encontrarBitcoins(key, min, max, shouldStop, rand = 0) {
       // console.log("Chaves buscadas: ", (key - min).toLocaleString("pt-BR"));
       // console.log("Ultima chave tentada: ", pkey);
 
-      key = generateRandomNumber(min, max);
-
       // if (key >= max) {
       //   key = min;
       // }
       //   }
       // }
       let publicKey = generatePublic(pkey);
+      key = generateRandomNumber(min, max);
 
       process.stdout.write(`Buscando Public Key : ${pkey} - ${publicKey}\r`);
 
@@ -186,11 +189,11 @@ function generateRandomNumber(lowerLimit, upperLimit) {
   let randomBits = BigInt("0x" + randomBuffer.toString("hex"));
 
   // Calcula o número aleatório dentro do intervalo
-  let randomNumber = BigInt(lowerLimit) + randomBits;
+  let randomNumber = lowerLimit + randomBits;
 
   // Certifique-se de que o número está dentro do limite superior
-  if (randomNumber > BigInt(upperLimit)) {
-    randomNumber = BigInt(upperLimit);
+  if (randomNumber > upperLimit) {
+    randomNumber = upperLimit;
   }
 
   return randomNumber.toString(16);
