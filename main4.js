@@ -39,6 +39,9 @@ let key = 0;
 let min,
   max = 0;
 
+//0000000000000000000000000000000000000000000000109417a26f9145ce5d
+//000000000000000000000000000000000000000000000010a9f582f3fb98e414
+
 min = BigInt("0x100000000000000000");
 max = BigInt("0x1fffffffffffffffff");
 key = BigInt("0x100000000000000000");
@@ -64,47 +67,43 @@ async function encontrarBitcoins(key, min, max, shouldStop, rand = 0) {
 
   console.log("Buscando Bitcoins...");
 
-  key = getRandomBigInt(min, max);
+  key = generateRandomNumber(min, max);
+  // console.log(`${zeroes[key.length]}${key}`);
+
+  // exit();
 
   const executeLoop = async () => {
     console.clear();
     while (!shouldStop()) {
-      key += um;
-      pkey = key.toString(16);
-      pkey = `${zeroes[pkey.length]}${pkey}`;
+      // key += um;
+      // pkey = key.toString(16);
+      pkey = `${zeroes[key.length]}${key}`;
 
-      if (Date.now() - startTime > segundos) {
-        segundos += 10;
-        // console.log(segundos / 10, pkey);
-        if (segundos % 500 == 0) {
-          const tempo = (Date.now() - startTime) / 10;
-          console.clear();
-          console.log("Resumo: ");
-          console.log(
-            "Velocidade:",
-            (Number(key) - Number(min)) / tempo,
-            " chaves por segundo"
-          );
-          console.log("Chaves buscadas: ", (key - min).toLocaleString("pt-BR"));
-          console.log("Ultima chave tentada: ", pkey);
-          //   const filePath = "keysUltima.txt"; // File path to write to
-          //   const content = `Ultima chave tentada: ${key} - ${pkey}`;
-          //   try {
-          //     fs.writeFileSync(filePath, content, "utf8");
-          //   } catch (err) {
-          //     console.error("Error writing to file:", err);
-          //   }
-          key = getRandomBigInt(min, max);
+      // if (Date.now() - startTime > segundos) {
+      //   segundos += 10;
+      // console.log(segundos / 10, pkey);
+      // if (segundos % 500 == 0) {
+      //   const tempo = (Date.now() - startTime) / 10;
+      // console.clear();
+      // console.log("Resumo: ");
+      // console.log(
+      //   "Velocidade:",
+      //   (Number(key) - Number(min)) / tempo,
+      //   " chaves por segundo"
+      // );
+      // console.log("Chaves buscadas: ", (key - min).toLocaleString("pt-BR"));
+      // console.log("Ultima chave tentada: ", pkey);
 
-          if (key >= max) {
-            key = min;
-          }
-        }
-      }
+      key = generateRandomNumber(min, max);
 
+      // if (key >= max) {
+      //   key = min;
+      // }
+      //   }
+      // }
       let publicKey = generatePublic(pkey);
 
-      // process.stdout.write(`Buscando Public Key : ${pkey} - ${publicKey}\r`);
+      process.stdout.write(`Buscando Public Key : ${pkey} - ${publicKey}\r`);
 
       if (walletsSet.has(publicKey)) {
         const tempo = (Date.now() - startTime) / 1000;
@@ -136,6 +135,8 @@ async function encontrarBitcoins(key, min, max, shouldStop, rand = 0) {
         await checkKey(publicKey);
         throw "ACHEI!!!! 🎉🎉🎉🎉🎉";
       }
+
+      await sleep(10);
     }
     await new Promise((resolve) => setImmediate(resolve));
   };
@@ -169,6 +170,30 @@ function getRandomBigInt(min, max) {
   const randomBigInt = min + randomBigIntInRange;
 
   return randomBigInt;
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function generateRandomNumber(lowerLimit, upperLimit) {
+  // Definindo os limites
+  // const lowerLimit = BigInt('0x100000000000000000');
+  // const upperLimit = BigInt('0x1fffffffffffffffff');
+
+  // Gera 64 bits aleatórios
+  const randomBuffer = crypto.randomBytes(8);
+  let randomBits = BigInt("0x" + randomBuffer.toString("hex"));
+
+  // Calcula o número aleatório dentro do intervalo
+  let randomNumber = BigInt(lowerLimit) + randomBits;
+
+  // Certifique-se de que o número está dentro do limite superior
+  if (randomNumber > BigInt(upperLimit)) {
+    randomNumber = BigInt(upperLimit);
+  }
+
+  return randomNumber.toString(16);
 }
 
 export default encontrarBitcoins;
