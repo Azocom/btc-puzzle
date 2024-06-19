@@ -97,7 +97,7 @@ async function encontrarBitcoins(
       // key2 += um2;
       // pkey = key.toString(16);
       pkey = `${zeroes[key.length]}${key}`;
-      pkey2 = `${zeroes[key2.length]}${key2}`;
+      // pkey2 = `${zeroes[key2.length]}${key2}`;
 
       // if (Date.now() - startTime > segundos) {
       //   segundos += 10;
@@ -120,20 +120,18 @@ async function encontrarBitcoins(
       //   }
       // }
       let publicKey = generatePublic(pkey);
-      let publicKey2 = generatePublic(pkey2);
+      // let publicKey2 = generatePublic(pkey2);
 
       key = generateRandomNumber(min, max); // randomBytes = 16 = Puzze 130
-      key2 = generateRandomNumber(min, max); // randomBytes = 16 = Puzze 130
+      // key2 = generateRandomNumber(min, max); // randomBytes = 16 = Puzze 130
 
       // process.stdout.write(
       //   `Buscando Public Key : ${pkey} - ${publicKey} / ${pkey2} - ${publicKey2}\r`
       // );
-      process.stdout.write(
-        `Buscando Public Key : ${publicKey} / ${publicKey2}\r`
-      );
+      process.stdout.write(`Buscando Public Key : ${publicKey}\r`);
       // console.log(pkey, publicKey, pkey2, publicKey2);
 
-      if (walletsSet.has(publicKey) || walletsSet.has(publicKey2)) {
+      if (walletsSet.has(publicKey)) {
         const tempo = (Date.now() - startTime) / 1000;
         console.log(
           "Velocidade:",
