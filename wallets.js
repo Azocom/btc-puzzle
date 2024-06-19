@@ -83,6 +83,7 @@ const wallets = [
   "14u4nA5sugaswb6SZgn5av2vuChdMnD9E5",
   "1NBC8uXJy1GiJ6drkiZa1WuKn51ps7EPTv",
   "18bHfcm8kGoAhBaQXzzVcG5534mdpWK981",
+  "1PXAyUB8ZoH3WD8n5zoAthYjN15yN5CVq5",
 ];
 
 export default wallets;
