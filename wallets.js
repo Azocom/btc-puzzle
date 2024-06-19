@@ -84,6 +84,18 @@ const wallets = [
   "1NBC8uXJy1GiJ6drkiZa1WuKn51ps7EPTv",
   "18bHfcm8kGoAhBaQXzzVcG5534mdpWK981",
   "1PXAyUB8ZoH3WD8n5zoAthYjN15yN5CVq5",
+  "1kN73tBY9EFEEs3QKr9dxJJVo8kDDLTqQ",
+  "1kN9HpCpbPuThgsVSrqVGaJdg5mhTLiqX",
+  "1kND9w74dhz5oSycMyQpLbkjmMu4JCQor",
+  "1kNS1VRKmpAZ44hZotjAbqVDxBPqX6LQ1",
+  "1K87LBwT6tv3yNq4pXTncU3Ngem3qR7fjB",
+  "1K87LQAfrWAXeGWzFeZTuQXpdTVWy4tciP",
+  "1K87LQPMngtfR3Ui4fBDyvUzFH1cKdsrF2",
+  "1K87MBerpzHKMAeXEcC4FTE781jqQEUM4q",
+  "1LT5kx2RJWnxJo1svKQSpEnuTjEiYrbcyq",
+  "1PGQk5c2UbaUTagibbMVjYmTWwvBKooa1R",
+  "1PGQnFLcHCEvbWB4bBrZoGZrxNRGKxkAdM",
+  "1PGQpimQTbPzSgDtMN9Kxk5hm7pQbDqNFg",
 ];
 
 export default wallets;
