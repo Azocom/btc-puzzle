@@ -98,8 +98,8 @@ def main(start_hex, end_hex, destino_file, batch_size=1000):
     print("Nenhum Public Key Hash encontrado na lista destino.")
 
 if __name__ == "__main__":
-    start_hex = '0x10000000000000000'
-    end_hex = '0x1ffffffffffffffff'  # Exemplo de um intervalo grande
+    start_hex = '0x20000000000000000'
+    end_hex = '0xfffffffffffffffff'  # Exemplo de um intervalo grande
     destino_file = 'destino.txt'
     
     main(start_hex, end_hex, destino_file)
