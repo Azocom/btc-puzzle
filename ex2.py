@@ -95,8 +95,8 @@ def main(start_hex, end_hex, destino_file):
     calculate_and_check_compressed_public_key_hashes(start, end, destino_file)
 
 if __name__ == "__main__":
-    start_hex = '0x20000000000000000'
-    end_hex = '0x20395810624dd2f19'  # Exemplo de um intervalo grande em hexadecimal
+    start_hex = '0x32cc20d5629d753be'
+    end_hex = '0x32cc22ee41918bf98'  # Exemplo de um intervalo grande em hexadecimal
     destino_file = 'destino.txt'
     
     main(start_hex, end_hex, destino_file)

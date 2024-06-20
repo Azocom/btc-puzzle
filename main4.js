@@ -42,15 +42,16 @@ let min,
 //0000000000000000000000000000000000000000000000109417a26f9145ce5d
 //000000000000000000000000000000000000000000000010a9f582f3fb98e414
 
-min = BigInt("0x100000000000000000");
-max = BigInt("0x1fffffffffffffffff");
-key = BigInt("0x100000000000000000");
+//Bloco 587508
+
+min = BigInt("0x20000000000000000");
+max = BigInt("0x3ffffffffffffffff");
 
 // min = BigInt("0x200000000000000000000000000000000");
 // max = BigInt("0x3ffffffffffffffffffffffffffffffff");
 // key = BigInt("0x200000000000000000000000000000000");
 
-encontrarBitcoins(key, key, min, max, () => shouldStop);
+encontrarBitcoins(min, min, min, max, () => shouldStop);
 
 async function encontrarBitcoins(
   key,
@@ -59,12 +60,13 @@ async function encontrarBitcoins(
   max,
   shouldStop,
   rand = 0,
-  rand2 = 10
+  rand2 = 0
 ) {
+  let start = 0;
   let segundos = 0;
   let pkey = 0;
   let pkey2 = 0;
-  let um = 0;
+  let um = 66;
   let um2 = 0;
   if (rand === 0) {
     um = BigInt(1);
@@ -94,40 +96,40 @@ async function encontrarBitcoins(
   const executeLoop = async () => {
     console.clear();
     while (!shouldStop()) {
-      // key2 += um2;
+      key += um;
       // pkey = key.toString(16);
       pkey = `${zeroes[key.length]}${key}`;
       // pkey2 = `${zeroes[key2.length]}${key2}`;
 
       // if (Date.now() - startTime > segundos) {
-      //   segundos += 10;
-      // console.log(segundos / 10, pkey);
-      // if (segundos % 500 == 0) {
-      //   const tempo = (Date.now() - startTime) / 10;
-      console.clear();
-      // console.log("Resumo: ");
-      // console.log(
-      //   "Velocidade:",
-      //   (Number(key) - Number(min)) / tempo,
-      //   " chaves por segundo"
-      // );
-      // console.log("Chaves buscadas: ", (key - min).toLocaleString("pt-BR"));
-      // console.log("Ultima chave tentada: ", pkey);
+      //   segundos += 1000;
+      //   console.log(segundos / 1000, start, pkey);
+      //   if (segundos % 5000 == 0) {
+      //     const tempo = (Date.now() - startTime) / 1000;
+      //     console.clear();
+      //     console.log("Resumo: ");
+      //     console.log(
+      //       "Velocidade:",
+      //       (Number(start) - Number(min)) / tempo,
+      //       " chaves por segundo"
+      //     );
+      //     // console.log("Chaves buscadas: ", (key - min).toLocaleString("pt-BR"));
+      //     console.log("Ultima chave tentada: ", pkey);
 
-      // if (key >= max) {
-      //   key = min;
-      // }
+      //     if (key >= max) {
+      //       key = min;
+      //     }
+      key = generateRandomNumber(min, max); // randomBytes = 16 = Puzze 130
       //   }
       // }
-      let publicKey = generatePublic(pkey);
       // let publicKey2 = generatePublic(pkey2);
 
-      key = generateRandomNumber(min, max); // randomBytes = 16 = Puzze 130
       // key2 = generateRandomNumber(min, max); // randomBytes = 16 = Puzze 130
 
       // process.stdout.write(
       //   `Buscando Public Key : ${pkey} - ${publicKey} / ${pkey2} - ${publicKey2}\r`
       // );
+      let publicKey = generatePublic(pkey);
       process.stdout.write(`Buscando Public Key : ${publicKey}\r`);
       // console.log(pkey, publicKey, pkey2, publicKey2);
 
@@ -208,7 +210,7 @@ function generateRandomNumber(lowerLimit, upperLimit, randomBytes = 8) {
   // const upperLimit = BigInt('0x1fffffffffffffffff');
 
   // Gera 64 bits aleatórios
-  const randomBuffer = crypto.randomBytes(randomBytes);
+  const randomBuffer = crypto.randomBytes(8);
   let randomBits = BigInt("0x" + randomBuffer.toString("hex"));
 
   // Calcula o número aleatório dentro do intervalo
