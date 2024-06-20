@@ -42,9 +42,9 @@ let min,
 //0000000000000000000000000000000000000000000000109417a26f9145ce5d
 //000000000000000000000000000000000000000000000010a9f582f3fb98e414
 
-min = BigInt("0x20000000000000000");
-max = BigInt("0x3ffffffffffffffff");
-key = BigInt("0x20000000000000000");
+min = BigInt("0x100000000000000000");
+max = BigInt("0x1fffffffffffffffff");
+key = BigInt("0x100000000000000000");
 
 // min = BigInt("0x200000000000000000000000000000000");
 // max = BigInt("0x3ffffffffffffffffffffffffffffffff");
@@ -87,7 +87,7 @@ async function encontrarBitcoins(
   console.log("Buscando Bitcoins...");
 
   key = generateRandomNumber(min, max);
-  key2 = generateRandomNumber(min, max);
+  // key2 = generateRandomNumber(min, max);
   // console.log(`${zeroes[key.length]}${key}`);
 
   // exit();
