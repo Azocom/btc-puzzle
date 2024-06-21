@@ -67,10 +67,10 @@ function titulo() {
 async function menu() {
   let [min, max, key] = await escolherCarteira(
     `Escolha uma carteira puzzle( ${chalk.cyan(1)} - ${chalk.cyan(161)}): `,
-    161
+    66
   );
 
-  const answer = "5";
+  const answer = "4";
   //await fazerPergunta(
   //     `Escolha uma opcao (${chalk.cyan(1)} - Comecar do inicio, ${chalk.cyan(
   //       2
