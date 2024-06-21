@@ -2,25 +2,15 @@
   "name": "btc",
   "version": "1.0.0",
   "description": "",
-  "main": "main3.js",
+  "main": "src/main.js",
   "scripts": {
-    "start": "node main2.js 4",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "engines": {
-    "node": ">=20.0.0"
+    "start": "node src/main.js"
   },
   "type": "module",
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^1.7.2",
     "chalk": "^5.3.0",
-    "child_process": "^1.0.2",
-    "coinkey": "^3.0.0",
-    "crypto": "^1.0.1",
-    "esm": "^3.2.25",
-    "express": "^4.19.2",
-    "mysql2": "^3.10.0"
+    "coinkey": "^3.0.0"
   }
 }
