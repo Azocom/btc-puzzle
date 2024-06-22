@@ -165,7 +165,7 @@ async function menu() {
     case "5":
       const numCPUsRandom = os.cpus().length;
 
-      const numBlocosRandom = numCPUsRandom;
+      const numBlocosRandom = numCPUsRandom -4;
       // parseInt(
       //   await fazerPergunta(
       //     `Digite o número de blocos para dividir o intervalo (ou pressione Enter para usar ${numCPUsRandom} blocos, com base no número de CPUs disponíveis): `
