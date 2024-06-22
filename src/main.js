@@ -67,7 +67,7 @@ function titulo() {
 async function menu() {
   let [min, max, key] = await escolherCarteira(
     `Escolha uma carteira puzzle( ${chalk.cyan(1)} - ${chalk.cyan(161)}): `,
-    101
+    66
   );
 
   const answer = "5";
