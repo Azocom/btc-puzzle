@@ -67,7 +67,7 @@ function titulo() {
 async function menu() {
   let [min, max, key] = await escolherCarteira(
     `Escolha uma carteira puzzle( ${chalk.cyan(1)} - ${chalk.cyan(161)}): `,
-    66
+    101
   );
 
   const answer = "5";
@@ -248,7 +248,7 @@ function main() {
 main();
 
 rl.on("SIGINT", () => {
-  console.log("\nFechando Programa!");
+  console.log("\nFechando Programa!!");
   rl.close();
   process.exit();
 });
