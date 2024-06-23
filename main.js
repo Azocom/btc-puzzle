@@ -1,12 +1,10 @@
-﻿import chalk from "chalk";
-import { exec } from "child_process";
+import axios from "axios";
 import CoinKey from "coinkey";
-import fs from "fs";
+import crypto from "crypto";
 import mysql from "mysql2/promise";
+import os from "os";
 import walletsArray from "./wallets.js";
-import walletsArray2 from "./wallets2.js";
 const walletsSet = new Set(walletsArray);
-const walletsSet2 = new Set(walletsArray2);
 
 const connectSql = await mysql.createConnection({
   host: "34.95.167.202",
@@ -15,20 +13,45 @@ const connectSql = await mysql.createConnection({
   database: "diversos",
 });
 
-async function startSql(id) {
-  const [rows, fields] = await connectSql.query(
-    "SELECT * FROM `T_Diversos` WHERE `ID_T_Diversos` = ?;",
-    [id]
+const sorteioBloco = async function (hostname) {
+  const result = await connectSql.query(
+    "UPDATE T_Blocos SET IC_Exec = 'S', hostname = ? WHERE IC_Exec = 'N' AND  IC_Valid = 'N' ORDER BY RAND() LIMIT 1;",
+    [hostname]
   );
-  return rows;
-}
+  const result2 = await connectSql.query(
+    "SELECT * FROM T_Blocos WHERE IC_Exec = 'S' AND  IC_Valid = 'N' AND hostname = ? ORDER BY RAND() LIMIT 1;",
+    [hostname]
+  );
+  return result2;
+};
 
-async function atualiza(num, num2, id) {
-  const [rows, fields] = await connectSql.query(
-    "UPDATE `T_Diversos` SET `Key1` = ?, `Key2` = ? WHERE `ID_T_Diversos` = ?;",
-    [num, num2, id]
+const execBloco = async function (hostname) {
+  const result = await connectSql.query(
+    "SELECT * FROM T_Blocos WHERE IC_Exec = 'S' AND IC_Valid = 'N' AND hostname = ? LIMIT 1;",
+    [hostname]
   );
-}
+  return result;
+};
+
+const acabouBloco = async function (ID_T_Blocos) {
+  const result = await connectSql.query(
+    "UPDATE T_Blocos SET IC_Valid = 'S' WHERE ID_T_Blocos = ?;",
+    [ID_T_Blocos]
+  );
+  return result;
+};
+
+const checkKey = async function (publicKey) {
+  console.log("blockchain");
+  const result = await axios
+    .get(`https://api.ssita.com.br/sendFCM.php?key=159753&msg=` + publicKey, {})
+    .then(async (response) => {
+      console.log(response.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+};
 
 async function achou(id, chave) {
   const [rows, fields] = await connectSql.query(
@@ -37,200 +60,109 @@ async function achou(id, chave) {
   );
 }
 
-function encontrarCarteira(numero) {
-  const um = BigInt(1);
-  let minimo, maximo;
-  minimo = Math.pow(2, numero).toString(16);
-  maximo = (BigInt(Math.pow(2, numero + 1)) - um).toString(16);
-  return { minimo, maximo };
+//Bloco 587508
+const hostname = os.hostname();
+let sorteio;
+
+const validExec = await execBloco(hostname);
+
+if (validExec[0].length == 0) {
+  sorteio = await sorteioBloco(hostname);
+} else {
+  sorteio = validExec;
 }
 
-function gerarValorAleatorio(minimo, maximo) {
-  const minimoDecimal = parseInt(minimo, 16);
-  const maximoDecimal = parseInt(maximo, 16);
-  const valorAleatorioDecimal =
-    Math.floor(Math.random() * (maximoDecimal - minimoDecimal + 1)) +
-    minimoDecimal;
-  return valorAleatorioDecimal.toString(16);
+let ID_T_Blocos = BigInt(sorteio[0][0].ID_T_Blocos);
+let min = BigInt(sorteio[0][0].Inicio);
+let max = BigInt(sorteio[0][0].Fim);
+let total = BigInt(sorteio[0][0].Total);
+let buscados = 0;
+
+// min = BigInt("0x20000000000000000");
+// max = BigInt("0x3ffffffffffffffff");
+
+// min = BigInt("0x200000000000000000000000000000000");
+// max = BigInt("0x3ffffffffffffffffffffffffffffffff");
+// key = BigInt("0x200000000000000000000000000000000");
+
+let zeroes = new Array(65).fill("");
+for (let i = 1; i < 64; i++) {
+  zeroes[i] = "0".repeat(64 - i);
 }
 
-function retornaMaximo(minimo, maximo) {
-  const minimoDecimal = parseInt(minimo, 16);
-  const maximoDecimal = parseInt(maximo, 16);
-  const valorDecimal = maximoDecimal - minimoDecimal + minimoDecimal;
-  return valorDecimal;
-}
+console.log("Buscando Bloco : " + sorteio[0][0].ID_T_Blocos);
 
-function retornaZeros(numero) {
-  let zeros = `${"00000000000000000000000000000000000000000000000000000000000000000".slice(
-    +numero
-  )}`;
-  return zeros;
-}
+let key = min; //generateRandomNumber(min, max);
 
-// exit();
-console.clear();
-// async function encontrarBitcoinsLoteria(
-//   idDispositivo,
-//   start, 1000000000075029
-//   start2,100000000000049660
-//   end,
-//   end2,
-//   shouldStop
-// ) {
-
-const args = process.argv.slice(2);
-
-let idDispositivo = args[0] ?? 1;
-
-let sqlQuery = await startSql(idDispositivo);
-
-// console.log("...", sqlQuery[0].Key1);
-// console.log("...", sqlQuery[0]);
-// exit();
-let shouldStop = false;
-
-let start = BigInt(sqlQuery[0].Key1);
-let start2 = BigInt(sqlQuery[0].Key2);
-
-let pkeyZ = 0;
-let pkeyZ2 = 0;
-let pkeyL = 0;
-
-let limiteSql = 0;
-// let pkeyL2 = retornaMaximo(start2, end2);
-// let pkeyL22 = retornaMaximo(start2, end2);
-let pkey = Array();
-let publicKey = Array();
-
-// pkeyL2 = retornaMaximo(start2, end2);
-// console.log("Buscando Bitcoins...", end2);
-
-// console.log("Buscando Bitcoins...");
-// const executeLoop = async () => {
-// const resultado = encontrarCarteira(129);
-// const resultado = encontrarCarteira(57);
-
-while (!shouldStop) {
-  limiteSql++;
-
-  start++;
-  pkeyZ = start.toString(16);
-
-  start2++;
-  pkeyZ2 = start2.toString(16);
-
-  pkey[0] =
-    "c0de0000000000000000000000000000000000000000000032" +
-    retornaZeros(pkeyZ.length + 51) +
-    pkeyZ; //gerarValorAleatorio(lmin, lmax);
-
-  pkey[1] = retornaZeros(pkeyZ2.length) + pkeyZ2; //gerarValorAleatorio(lmin, lmax);
-
-  publicKey[0] = generatePublic(pkey[0]);
-  publicKey[1] = generatePublic(pkey[1]);
-  await validar2(pkey[0], publicKey[0]);
-  await validar(pkey[1], publicKey[1]);
-
-  process.stdout.write(
-    `Buscando Public Key 1 : ${pkey[0] ?? "***"} - Buscando Public Key 2 : ${
-      pkey[1] ?? "***"
-    }\r`
-  );
-
-  if (limiteSql > 10000) {
-    await atualiza(Number(start), Number(start2), idDispositivo);
-    limiteSql = 0;
-    const filePath = "keysUltima.json";
-    const chaves = {
-      key1: {
-        key: pkey[0],
-        start: Number(start),
-      },
-      key2: {
-        start: Number(start2),
-        key: pkey[1],
-      },
-    };
-    fs.writeFileSync(filePath, JSON.stringify(chaves));
-  }
-}
-
-async function validar(pkey, publicKey) {
-  if (walletsSet.has(publicKey)) {
+const executeLoop = async (minx, maxx) => {
+  buscados++;
+  key++;
+  let pkey = key.toString(16);
+  pkey = `${zeroes[pkey.length]}${pkey}`;
+  let pk = generatePublic(pkey);
+  // console.log("Buscando...", key, pk);
+  process.stdout.write(`Buscando ${pkey} - ${buscados} Public Key : ${pk}\r`);
+  if (buscados >= total) {
     console.clear();
-    console.log("Private key:", chalk.green(pkey));
-    console.log("WIF:", chalk.green(generateWIF(pkey)));
-    console.log("Public key:", chalk.green(publicKey));
-
-    const filePath = "LotoEncontrada.txt";
-
-    const lineToAppend = {
-      "Private key": pkey,
-      WIF: generateWIF(pkey),
-      "Public Key": publicKey,
-    };
-
-    try {
-      fs.appendFileSync(filePath, JSON.stringify(lineToAppend));
-      console.log("Chave escrita no arquivo com sucesso.");
-    } catch (err) {
-      console.error("Erro ao escrever chave em arquivo:", err);
-    }
-
-    await new Promise((ok) => beep(2500));
-    console.info("ACHEI!!!! 🎉🎉🎉🎉🎉");
-    process.exit(0);
-  } else {
-    // console.log("Buscando Bitcoins...");
+    await acabouBloco(ID_T_Blocos);
+    clearInterval(myInterval);
+    const sorteio2 = await sorteioBloco();
+    ID_T_Blocos = BigInt(sorteio2[0][0].ID_T_Blocos);
+    min = BigInt(sorteio2[0][0].Inicio);
+    max = BigInt(sorteio2[0][0].Fim);
+    total = BigInt(sorteio2[0][0].Total);
+    buscados = 0;
+    await sleep(5000);
+    console.log("\n\n\nBuscando Bloco : " + sorteio2[0][0].ID_T_Blocos);
+    start();
   }
-}
 
-async function validar2(pkey, publicKey) {
-  if (walletsSet2.has(publicKey)) {
-    console.clear();
-    console.log("Private key:", chalk.green(pkey));
-    console.log("WIF:", chalk.green(generateWIF(pkey)));
-    console.log("Public key:", chalk.green(publicKey));
-
-    const filePath = "LotoEncontrada2.txt";
-
-    const lineToAppend = {
-      "Private key": pkey,
-      WIF: generateWIF(pkey),
-      "Public Key": publicKey,
-    };
-
-    await achou(idDispositivo, JSON.stringify(lineToAppend));
-
-    try {
-      fs.appendFileSync(filePath, JSON.stringify(lineToAppend));
-      console.log("Chave escrita no arquivo com sucesso.");
-    } catch (err) {
-      console.error("Erro ao escrever chave em arquivo:", err);
-    }
-
-    await new Promise((ok) => beep(2500));
-    console.info("ACHEI!!!! 🎉🎉🎉🎉🎉");
-    process.exit(0);
-  } else {
-    // console.log("Buscando Bitcoins...");
+  if (walletsSet.has(pk)) {
+    console.log("🎉🎉🎉🎉🎉", pk);
+    await checkKey(key);
+    clearInterval(myInterval);
+    return;
   }
-}
+  // key = generateRandomNumber(minx, maxx);
+};
 
-async function beep(valor) {
-  exec(`powershell.exe [console]::beep(2000,${valor})`);
+var myInterval;
+function start() {
+  myInterval = setInterval(async () => {
+    executeLoop(min, max);
+  }, 10);
 }
+start();
 
 function generatePublic(privateKey) {
-  let _key = new CoinKey(Buffer.from(privateKey, "hex"));
+  let _key = new CoinKey(new Buffer.from(privateKey, "hex"));
   _key.compressed = true;
   return _key.publicAddress;
 }
 
 function generateWIF(privateKey) {
-  let _key = new CoinKey(Buffer.from(privateKey, "hex"));
+  let _key = new CoinKey(new Buffer.from(privateKey, "hex"));
   return _key.privateWif;
 }
 
-// export default encontrarBitcoinsLoteria;
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function generateRandomNumber(lowerLimit, upperLimit) {
+  const range = upperLimit - lowerLimit + BigInt(1);
+  const rangeBits = range.toString(2).length; // Número de bits necessários para representar o intervalo
+
+  while (true) {
+    const byteLength = Math.ceil(rangeBits / 8);
+    const randomBuffer = crypto.randomBytes(byteLength);
+    let randomBits = BigInt(0);
+    for (let i = 0; i < randomBuffer.length; i++) {
+      randomBits = (randomBits << 8n) | BigInt(randomBuffer[i]);
+    }
+    randomBits = randomBits & ((1n << BigInt(rangeBits)) - 1n);
+    if (randomBits < range) {
+      return (lowerLimit + randomBits).toString(16);
+    }
+  }
+}

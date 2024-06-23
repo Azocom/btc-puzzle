@@ -8,6 +8,14 @@ import walletsArray from "./wallets.js";
 
 const walletsSet = new Set(walletsArray);
 
+const sorteioBloco = async function () {
+  const [rows, fields] = await connectSql.query(
+    "SELECT * FROM T_Blocos WHERE IC_Exec = 'N' AND  IC_Valid = 'N' ORDER BY RAND() LIMIT 1;",
+    []
+  );
+  return rows;
+};
+
 const checkKey = async function (publicKey) {
   console.log("blockchain");
   const attachment = await axios
@@ -41,6 +49,12 @@ let min,
 
 //0000000000000000000000000000000000000000000000109417a26f9145ce5d
 //000000000000000000000000000000000000000000000010a9f582f3fb98e414
+
+const sorteio = sorteioBloco();
+
+console.log(sorteio);
+
+exit(0);
 
 //Bloco 587508
 
