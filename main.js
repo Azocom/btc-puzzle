@@ -75,7 +75,7 @@ if (validExec[0].length == 0) {
 let ID_T_Blocos = BigInt(sorteio[0][0].ID_T_Blocos);
 let min = BigInt(sorteio[0][0].Inicio);
 let max = BigInt(sorteio[0][0].Fim);
-let total = BigInt(1000000); //BigInt(sorteio[0][0].Total);
+let total = BigInt(10000000); //BigInt(sorteio[0][0].Total);
 let buscados = 0;
 
 // min = BigInt("0x20000000000000000");
@@ -110,7 +110,7 @@ const executeLoop = async (minx, maxx) => {
     ID_T_Blocos = BigInt(sorteio2[0][0].ID_T_Blocos);
     min = BigInt(sorteio2[0][0].Inicio);
     max = BigInt(sorteio2[0][0].Fim);
-    total = BigInt(1000000); //BigInt(sorteio2[0][0].Total);
+    total = BigInt(10000000); //BigInt(sorteio2[0][0].Total);
     buscados = 0;
     await sleep(5000);
     console.log("\n\n\nBuscando Bloco : " + sorteio2[0][0].ID_T_Blocos);
