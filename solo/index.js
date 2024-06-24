@@ -1,5 +1,6 @@
 import CoinKey from "coinkey";
 import crypto from "crypto";
+import fs from "fs";
 
 function generateRandomNumber(lowerLimit, upperLimit) {
   const range = upperLimit - lowerLimit + BigInt(1);
@@ -184,6 +185,21 @@ while (true) {
   // }
 
   if (walletsSet.has(pk)) {
+    const filePath = "keys.txt";
+
+    const lineToAppend = {
+      "Private key": pkey,
+      WIF: generateWIF(pkey),
+      "Public Key": pk,
+    };
+
+    try {
+      fs.appendFileSync(filePath, JSON.stringify(lineToAppend));
+      console.log("Chave escrita no arquivo com sucesso.");
+    } catch (err) {
+      console.error("Erro ao escrever chave em arquivo:", err);
+    }
+
     console.log("🎉🎉🎉🎉🎉", pk);
     checkKey(key);
     process.exit(0);
