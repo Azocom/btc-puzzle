@@ -1,0 +1,33 @@
+const bs58 = require("bs58");
+const bitcoin = require("bitcoinjs-lib");
+
+function base58ToHex(address) {
+  const bytes = bs58.decode(address);
+  const hex = Buffer.from(bytes).toString("hex");
+  return hex;
+}
+
+function getPublicKeyHash(hex) {
+  // Remove prefixo (1 byte, 2 caracteres hexadecimais) e checksum (4 bytes, 8 caracteres hexadecimais)
+  return hex.slice(2, -8);
+}
+
+// Utiliza bitcoinjs-lib para gerar uma chave pública comprimida
+function generateCompressedPublicKey(privateKeyWIF) {
+  const keyPair = bitcoin.ECPair.fromWIF(privateKeyWIF);
+  const { publicKey } = keyPair;
+  return publicKey.toString("hex");
+}
+
+const address = "1cryptoGeCRiTzVgxBQcKFFjSVydN1GW7";
+const hexData = base58ToHex(address);
+const publicKeyHash = getPublicKeyHash(hexData);
+
+// Exemplo de chave privada WIF para gerar a chave pública comprimida
+const examplePrivateKeyWIF =
+  "KzFZ3Pm9MrN96bcz4yp8nft3Yup1xwYCGxjz6k1XT8arVWRNhWZn";
+const compressedPublicKey = generateCompressedPublicKey(examplePrivateKeyWIF);
+
+console.log("Hex Data:", hexData);
+console.log("Public Key Hash:", publicKeyHash);
+console.log("Compressed Public Key:", compressedPublicKey);
