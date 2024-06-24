@@ -138,7 +138,11 @@ let ask2 = [];
 let segundos = 0;
 const startTime = Date.now();
 
-const executeLoop = async (minx, maxx) => {
+console.log("Buscando Key...");
+key = generateRandomNumber(min, max);
+
+while (true) {
+  // const executeLoop = async (minx, maxx) => {
   // start++;
   chaves++;
   let pkey = `${zeroes[key.length]}${key}`;
@@ -187,10 +191,6 @@ const executeLoop = async (minx, maxx) => {
   // ask.push(pk);
   // ask2.push({ key: key, pk: pk });
   // await sleep(0);
-  key = generateRandomNumber(minx, maxx);
-  await executeLoop(min, max);
-};
-
-console.clear();
-console.log("Buscando Key...");
-executeLoop(min, max);
+  key = generateRandomNumber(min, max);
+  // await executeLoop(min, max);
+}
