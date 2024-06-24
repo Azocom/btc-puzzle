@@ -186,7 +186,7 @@ const executeLoop = async (minx, maxx) => {
   }
   // ask.push(pk);
   // ask2.push({ key: key, pk: pk });
-  await sleep(1);
+  // await sleep(0);
   key = generateRandomNumber(minx, maxx);
   await executeLoop(min, max);
 };
