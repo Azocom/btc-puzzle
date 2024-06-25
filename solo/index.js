@@ -1,3 +1,4 @@
+import { exec } from "child_process";
 import CoinKey from "coinkey";
 import crypto from "crypto";
 import fs from "fs";
@@ -114,6 +115,10 @@ function convertMegahashesToEmhashes(megahashes) {
   return emhashes;
 }
 
+const beep = async function (valor) {
+  exec(`powershell.exe [console]::beep(2000,${valor})`);
+};
+
 function formatNumberWithSuffix(number) {
   if (number >= 1e15) return (number / 1e15).toFixed(2) + " EH";
   if (number >= 1e12) return (number / 1e12).toFixed(2) + " TH";
@@ -159,7 +164,7 @@ while (paraExec) {
     // console.log("Buscando...", key[index], pkey[index], pk[index]);
 
     if (walletsSet.has(pk[index])) {
-      paraExec = false;
+      await beep(1000);
       const filePath = "keys.txt";
       const lineToAppend = {
         "Private key": pkey[index],
