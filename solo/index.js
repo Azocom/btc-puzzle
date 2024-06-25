@@ -97,7 +97,7 @@ import walletsArray from "./wallets.js";
 const walletsSet = new Set(walletsArray);
 
 let min = BigInt("0x20000000000000000");
-let max = BigInt("0xfffffffffffffffff");
+let max = BigInt("0x3ffffffffffffffff");
 
 console.log(
   "Inicio : 0x" +
