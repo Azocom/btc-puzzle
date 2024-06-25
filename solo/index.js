@@ -180,6 +180,7 @@ while (paraExec) {
 
       console.log("🎉🎉🎉🎉🎉", pk);
       await checkKey("N : " + key);
+      await sleep(5000);
       process.exit(0);
     }
   }
