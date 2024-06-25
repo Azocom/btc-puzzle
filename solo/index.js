@@ -145,7 +145,7 @@ const startTime = Date.now();
 console.log("Buscando Key...");
 console.log("Inicio : 0x" + min.toString(16));
 console.log("Fim    : 0x" + max.toString(16));
-key = generateRandomNumber(min, max);
+// key = generateRandomNumber(min, max);
 
 let paraExec = true;
 
@@ -179,7 +179,7 @@ while (paraExec) {
       }
 
       console.log("🎉🎉🎉🎉🎉", pk);
-      await checkKey(key);
+      await checkKey(key[index]);
       process.exit(0);
     }
   }
