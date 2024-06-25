@@ -100,7 +100,7 @@ let min = BigInt("0x20000000000000000");
 let max = BigInt("0x3ffffffffffffffff");
 
 console.log("Inicio : 0x" + min.toString(16));
-console.log("Fim : 0x" + max.toString(16));
+console.log("Fim    : 0x" + max.toString(16));
 
 // let min = BigInt("0x8000000000000000000000000000000000000000");
 // let max = BigInt("0xffffffffffffffffffffffffffffffffffffffff");
