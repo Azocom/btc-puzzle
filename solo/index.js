@@ -179,7 +179,7 @@ while (paraExec) {
       }
 
       console.log("🎉🎉🎉🎉🎉", pk);
-      await checkKey(key[index]);
+      await checkKey("N : " + key);
       process.exit(0);
     }
   }
