@@ -99,9 +99,6 @@ const walletsSet = new Set(walletsArray);
 let min = BigInt("0x20000000000000000");
 let max = BigInt("0x3ffffffffffffffff");
 
-console.log("Inicio : 0x" + min.toString(16));
-console.log("Fim    : 0x" + max.toString(16));
-
 // let min = BigInt("0x8000000000000000000000000000000000000000");
 // let max = BigInt("0xffffffffffffffffffffffffffffffffffffffff");
 let key = generateRandomNumber(min, max);
@@ -136,6 +133,8 @@ let segundos = 0;
 const startTime = Date.now();
 
 console.log("Buscando Key...");
+console.log("Inicio : 0x" + min.toString(16));
+console.log("Fim    : 0x" + max.toString(16));
 key = generateRandomNumber(min, max);
 
 while (true) {
