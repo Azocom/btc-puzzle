@@ -129,7 +129,10 @@ let limite = 30;
 let ask = [];
 let ask2 = [];
 
-let nCPU = 4;
+let pkey = [];
+let pk = [];
+
+let nCPU = 8;
 
 let segundos = 0;
 const startTime = Date.now();
@@ -139,15 +142,44 @@ console.log("Inicio : 0x" + min.toString(16));
 console.log("Fim    : 0x" + max.toString(16));
 key = generateRandomNumber(min, max);
 
-while (true) {
+let paraExec = true;
+
+while (paraExec) {
   // const executeLoop = async (minx, maxx) => {
   // start++;
-  chaves++;
-  let pkey = `${zeroes[key.length]}${key}`;
-  let pk = generatePublic(pkey);
+  // let pkey = `${zeroes[key.length]}${key}`;
+  // let pk = generatePublic(pkey);
+
+  for (let index = 0; index < nCPU; index++) {
+    chaves++;
+    key = generateRandomNumber(min, max);
+    pkey[index] = `${zeroes[key.length]}${key}`;
+    pk[index] = generatePublic(pkey[index]);
+    process.stdout.write(`Buscando Key : ${key} - ${pkey[index]}\r`);
+    // console.log("Buscando...", key[index], pkey[index], pk[index]);
+
+    if (walletsSet.has(pk[index])) {
+      paraExec = false;
+      const filePath = "keys.txt";
+      const lineToAppend = {
+        "Private key": pkey[index],
+        WIF: generateWIF(pkey[index]),
+        "Public Key": pk[index],
+      };
+      try {
+        fs.appendFileSync(filePath, JSON.stringify(lineToAppend));
+        console.log("Chave escrita no arquivo com sucesso.");
+      } catch (err) {
+        console.error("Erro ao escrever chave em arquivo:", err);
+      }
+
+      console.log("🎉🎉🎉🎉🎉", pk);
+      await checkKey(key);
+      process.exit(0);
+    }
+  }
 
   // console.log("Buscando...", key, pkey, pk);
-  process.stdout.write(`Buscando Key : ${key} - ${pkey}\r`);
 
   if (Date.now() - startTime > segundos) {
     segundos += 1000;
@@ -157,11 +189,9 @@ while (true) {
       console.log("Resumo: ");
       console.log(
         "#" +
-          chaves * nCPU +
+          chaves +
           " - Velocidade : " +
-          formatNumberWithSuffix(
-            convertMegahashesToEmhashes((chaves * nCPU) / tempo)
-          )
+          formatNumberWithSuffix(convertMegahashesToEmhashes(chaves / tempo))
       );
       chaves = 0;
     }
@@ -183,27 +213,9 @@ while (true) {
   // init();
   // }
 
-  if (walletsSet.has(pk)) {
-    const filePath = "keys.txt";
-    const lineToAppend = {
-      "Private key": pkey,
-      WIF: generateWIF(pkey),
-      "Public Key": pk,
-    };
-    try {
-      fs.appendFileSync(filePath, JSON.stringify(lineToAppend));
-      console.log("Chave escrita no arquivo com sucesso.");
-    } catch (err) {
-      console.error("Erro ao escrever chave em arquivo:", err);
-    }
-
-    console.log("🎉🎉🎉🎉🎉", pk);
-    await checkKey(key);
-    process.exit(0);
-  }
   // ask.push(pk);
   // ask2.push({ key: key, pk: pk });
   // await sleep(0);
-  key = generateRandomNumber(min, max);
+  // key = generateRandomNumber(min, max);
   // await executeLoop(min, max);
 }
