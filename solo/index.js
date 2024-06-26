@@ -147,81 +147,82 @@ console.log("Inicio : 0x" + min.toString(16));
 console.log("Fim    : 0x" + max.toString(16));
 // key = generateRandomNumber(min, max);
 
-let paraExec = true;
+let running = true;
+const executeLoop = async () => {
+  while (running) {
+    // const executeLoop = async (minx, maxx) => {
+    // start++;
+    // let pkey = `${zeroes[key.length]}${key}`;
+    // let pk = generatePublic(pkey);
 
-while (paraExec) {
-  // const executeLoop = async (minx, maxx) => {
-  // start++;
-  // let pkey = `${zeroes[key.length]}${key}`;
-  // let pk = generatePublic(pkey);
+    for (let index = 0; index < nCPU; index++) {
+      chaves++;
+      key = generateRandomNumber(min, max);
+      pkey[index] = `${zeroes[key.length]}${key}`;
+      pk[index] = generatePublic(pkey[index]);
+      process.stdout.write(`Buscando Key : ${key} - ${pkey[index]}\r`);
+      // console.log("Buscando...", key[index], pkey[index], pk[index]);
 
-  for (let index = 0; index < nCPU; index++) {
-    chaves++;
-    key = generateRandomNumber(min, max);
-    pkey[index] = `${zeroes[key.length]}${key}`;
-    pk[index] = generatePublic(pkey[index]);
-    process.stdout.write(`Buscando Key : ${key} - ${pkey[index]}\r`);
-    // console.log("Buscando...", key[index], pkey[index], pk[index]);
+      if (walletsSet.has(pk[index])) {
+        await beep(1000);
+        const filePath = "keys.txt";
+        const lineToAppend = {
+          "Private key": pkey[index],
+          WIF: generateWIF(pkey[index]),
+          "Public Key": pk[index],
+        };
+        try {
+          fs.appendFileSync(filePath, JSON.stringify(lineToAppend));
+          console.log("Chave escrita no arquivo com sucesso.");
+        } catch (err) {
+          console.error("Erro ao escrever chave em arquivo:", err);
+        }
 
-    if (walletsSet.has(pk[index])) {
-      await beep(1000);
-      const filePath = "keys.txt";
-      const lineToAppend = {
-        "Private key": pkey[index],
-        WIF: generateWIF(pkey[index]),
-        "Public Key": pk[index],
-      };
-      try {
-        fs.appendFileSync(filePath, JSON.stringify(lineToAppend));
-        console.log("Chave escrita no arquivo com sucesso.");
-      } catch (err) {
-        console.error("Erro ao escrever chave em arquivo:", err);
+        console.log("🎉🎉🎉🎉🎉", pk);
+        await checkKey("N : " + key);
+        await sleep(5000);
+        process.exit(0);
       }
-
-      console.log("🎉🎉🎉🎉🎉", pk);
-      await checkKey("N : " + key);
-      await sleep(5000);
-      process.exit(0);
     }
-  }
 
-  // console.log("Buscando...", key, pkey, pk);
+    // console.log("Buscando...", key, pkey, pk);
 
-  if (Date.now() - startTime > segundos) {
-    segundos += 1000;
-    if (segundos % 10000 === 0) {
-      const tempo = (Date.now() - startTime) / 1000;
-      console.clear();
-      console.log("Resumo: ");
-      console.log(
-        "#" +
-          chaves +
-          " - Velocidade : " +
-          formatNumberWithSuffix(convertMegahashesToEmhashes(chaves / tempo))
-      );
-      chaves = 0;
+    if (Date.now() - startTime > segundos) {
+      segundos += 1000;
+      if (segundos % 10000 === 0) {
+        const tempo = (Date.now() - startTime) / 1000;
+        console.clear();
+        console.log("Resumo: ");
+        console.log(
+          "#" +
+            chaves +
+            " - Velocidade : " +
+            formatNumberWithSuffix(convertMegahashesToEmhashes(chaves / tempo))
+        );
+        chaves = 0;
+      }
     }
+
+    // if (start >= limite) {
+    // clearInterval(myInterval);
+    // start = 0;
+    // document.getElementById("address").innerHTML = "";
+    //   balance(jsonToQueryString(ask), ask2);
+    //   ask2 = [];
+    // let numeroAleatorio = Math.floor(Math.random() * (1000 + 1)) + 1000;
+    // var keys = Object.keys(ask);
+    // keys.forEach(async function (key, index) {
+    // document.getElementById("address").innerHTML += ask[key] + "<br>";
+    // });
+    // ask = [];
+    // await sleep(numeroAleatorio);
+    // init();
+    // }
+
+    // ask.push(pk);
+    // ask2.push({ key: key, pk: pk });
+    // await sleep(0);
+    // key = generateRandomNumber(min, max);
+    // await executeLoop(min, max);
   }
-
-  // if (start >= limite) {
-  // clearInterval(myInterval);
-  // start = 0;
-  // document.getElementById("address").innerHTML = "";
-  //   balance(jsonToQueryString(ask), ask2);
-  //   ask2 = [];
-  // let numeroAleatorio = Math.floor(Math.random() * (1000 + 1)) + 1000;
-  // var keys = Object.keys(ask);
-  // keys.forEach(async function (key, index) {
-  // document.getElementById("address").innerHTML += ask[key] + "<br>";
-  // });
-  // ask = [];
-  // await sleep(numeroAleatorio);
-  // init();
-  // }
-
-  // ask.push(pk);
-  // ask2.push({ key: key, pk: pk });
-  // await sleep(0);
-  // key = generateRandomNumber(min, max);
-  // await executeLoop(min, max);
-}
+};

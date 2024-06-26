@@ -11,9 +11,12 @@
   "author": "azocom",
   "license": "MIT",
   "dependencies": {
+    "chalk": "^5.3.0",
     "child_process": "^1.0.2",
     "coinkey": "^3.0.0",
     "crypto": "^1.0.1",
-    "fs": "^0.0.1-security"
+    "fs": "^0.0.1-security",
+    "os": "^0.1.2",
+    "worker-thread": "^1.1.0"
   }
 }
