@@ -64,8 +64,8 @@ function titulo() {
 }
 
 async function menu() {
-  let min = "0x20000000000000000";
-  let max = "0x3ffffffffffffffff";
+  let min = "0x1153f579608b406be";
+  let max = "0x36ab6256ec0ffe184";
   let key;
 
   // let [min, max, key] = await escolherCarteira(
@@ -164,7 +164,7 @@ async function menu() {
       break;
     case "5":
       const numCPUsRandom = os.cpus().length;
-      const numBlocosRandom = 3; //numCPUsRandom;
+      const numBlocosRandom = numCPUsRandom * 2;
       // parseInt(
       //   await fazerPergunta(
       //     `Digite o número de blocos para dividir o intervalo (ou pressione Enter para usar ${numCPUsRandom} blocos, com base no número de CPUs disponíveis): `

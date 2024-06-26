@@ -232,7 +232,10 @@ export const iniciarInterfaceWeb = async (rl) => {
   const iniciarInterface = true; //await perguntarParaIniciarInterface(rl);
   if (iniciarInterface) {
     const args = process.argv.slice(2);
+    // console.log("args", process.argv.slice(2)[0]);
+    // exit(0);
     let idDispositivo = args[0] ?? 1;
+
     monitorarKeys(idDispositivo);
     try {
       await listenAsync(port);
