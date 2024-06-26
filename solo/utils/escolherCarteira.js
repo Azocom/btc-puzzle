@@ -18,7 +18,7 @@ async function validaEscolherCarteira(pergunta) {
 }
 
 async function escolherCarteira(pergunta) {
-  const answer = 20; //await validaEscolherCarteira(pergunta)
+  const answer = 66; //await validaEscolherCarteira(pergunta)
 
   let min = ranges[answer - 1].min;
   let max = ranges[answer - 1].max;
