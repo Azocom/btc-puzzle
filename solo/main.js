@@ -10,7 +10,7 @@ import {
   fazerPergunta,
   rl,
 } from "./utils/index.js";
-// import { iniciarInterfaceWeb } from '../web-interface/app.js';
+import { iniciarInterfaceWeb } from "./web-interface/app.js";
 
 function titulo() {
   console.log(
@@ -236,8 +236,8 @@ async function menu() {
 
 async function main() {
   console.clear();
-  titulo();
-  //   await iniciarInterfaceWeb(rl);
+  //   titulo();
+  await iniciarInterfaceWeb(rl);
   menu();
 }
 
