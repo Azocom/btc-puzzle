@@ -1,9 +1,7 @@
-﻿import chalk from "chalk";
-import os from "os";
+﻿import os from "os";
 import { Worker } from "worker_threads";
 import encontrarBitcoins from "./bitcoin-find.js";
 import {
-  escolherCarteira,
   escolherMinimo,
   escolherPorcentagem,
   escolherPorcentagemBlocos,
@@ -66,9 +64,14 @@ function titulo() {
 }
 
 async function menu() {
-  let [min, max, key] = await escolherCarteira(
-    `Escolha uma carteira puzzle( ${chalk.cyan(1)} - ${chalk.cyan(161)}): `
-  );
+  let min = "0x20000000000000000";
+  let max = "0x3ffffffffffffffff";
+  let key;
+
+  // let [min, max, key] = await escolherCarteira(
+  //   `Escolha uma carteira puzzle( ${chalk.cyan(1)} - ${chalk.cyan(161)}): `
+  // );
+
   const answer = "5"; //await fazerPergunta(
   //     `Escolha uma opcao (${chalk.cyan(1)} - Comecar do inicio, ${chalk.cyan(
   //       2
@@ -161,7 +164,7 @@ async function menu() {
       break;
     case "5":
       const numCPUsRandom = os.cpus().length;
-      const numBlocosRandom = numCPUsRandom;
+      const numBlocosRandom = 3; //numCPUsRandom;
       // parseInt(
       //   await fazerPergunta(
       //     `Digite o número de blocos para dividir o intervalo (ou pressione Enter para usar ${numCPUsRandom} blocos, com base no número de CPUs disponíveis): `

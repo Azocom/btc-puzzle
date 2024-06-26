@@ -33,7 +33,7 @@
                 </svg>
             </div>
             <a href="/">
-                <div class="font-bold text-xl">BTC Finder</div>
+                <div class="font-bold text-xl">BTC Finder <span id="idDispositivo"></span></div>
             </a>
         </div>
     </nav>
@@ -79,6 +79,9 @@
         });
         socket.on('carteirasEncontradas', (num) => {
             document.getElementById('carteirasDisplay').textContent = `Carteiras encontradas: ${num}`;
+        });
+        socket.on('idDispositivo', (id) => {
+            document.getElementById('idDispositivo').textContent = `# ${id}`;
         });
     </script>
 </body>

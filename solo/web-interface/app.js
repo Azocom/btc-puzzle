@@ -72,22 +72,27 @@ app.get(
   (req, res) => {
     const filePath = path.join(__dirname, "../keys.txt");
     const chavesWIF = lerChavesWIF(filePath);
-    res.render("keys", { keys: chavesWIF ? chavesWIF : [] });
+    res.render("keys", {
+      keys: chavesWIF ? chavesWIF : [],
+      minerador: "teste",
+    });
   }
 );
 
 io.on("connection", (socket) => {
-  descobrirSaldoNasCarteiras().then((saldo) => {
-    enviarSaldoAtualizado(socket, saldo);
-  });
-  enviarCarteirasEncontradas(socket);
+  // descobrirSaldoNasCarteiras().then((saldo) => {
+  //   enviarSaldoAtualizado(socket, saldo);
+  // });
+  const args = process.argv.slice(2);
+  let idDispositivo = args[0] ?? 1;
+  enviarCarteirasEncontradas(socket, idDispositivo);
 });
 
 const enviarSaldoAtualizado = (socket, saldo) => {
   socket.emit("saldoAtualizado", saldo.trim());
 };
 
-const enviarCarteirasEncontradas = (socket) => {
+const enviarCarteirasEncontradas = (socket, idDispositivo) => {
   const filePath = path.join(__dirname, "../keys.txt");
 
   fs.readFile(filePath, "utf8", (err, content) => {
@@ -99,6 +104,7 @@ const enviarCarteirasEncontradas = (socket) => {
       }
       const numChaves = 0;
       socket.emit("carteirasEncontradas", numChaves);
+      socket.emit("idDispositivo", idDispositivo);
       return;
     }
 
@@ -106,6 +112,7 @@ const enviarCarteirasEncontradas = (socket) => {
     const numChaves = chavesPrivadas.length;
 
     socket.emit("carteirasEncontradas", numChaves);
+    socket.emit("idDispositivo", idDispositivo);
   });
 };
 
@@ -200,7 +207,7 @@ const descobrirSaldoNasCarteiras = async () => {
   return saldoArredondado;
 };
 
-const monitorarKeys = () => {
+const monitorarKeys = (idDispositivo) => {
   const filePath = path.join(__dirname, "../keys.txt");
 
   fs.access(filePath, fs.constants.F_OK, (err) => {
@@ -210,10 +217,10 @@ const monitorarKeys = () => {
 
     fs.watch(filePath, (eventType, filename) => {
       if (filename && eventType === "change") {
-        enviarCarteirasEncontradas(io);
-        descobrirSaldoNasCarteiras().then((saldo) => {
-          enviarSaldoAtualizado(io, saldo);
-        });
+        enviarCarteirasEncontradas(io, idDispositivo);
+        // descobrirSaldoNasCarteiras().then((saldo) => {
+        //   enviarSaldoAtualizado(io, saldo);
+        // });
       }
     });
   });
@@ -224,7 +231,9 @@ const listenAsync = promisify(server.listen).bind(server);
 export const iniciarInterfaceWeb = async (rl) => {
   const iniciarInterface = true; //await perguntarParaIniciarInterface(rl);
   if (iniciarInterface) {
-    monitorarKeys();
+    const args = process.argv.slice(2);
+    let idDispositivo = args[0] ?? 1;
+    monitorarKeys(idDispositivo);
     try {
       await listenAsync(port);
       console.log(`[beta] Servidor rodando em http://localhost:${port}`);
